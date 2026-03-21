@@ -6,4 +6,4 @@ Aqui terá todos os trabalhos de Estrutura de Dados feitos em 2026.1
 
 
 
-## Como vai ser enviado os commit ?
+## Como que estou enviado os commit ?
