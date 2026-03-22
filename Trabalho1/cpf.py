@@ -5,7 +5,9 @@ verificadores = []
 cpfs = []
 def main():
     # Pega o cpf em formato de str e converte nas listas separadas como valores int
-    cpf = input("Diigte um cpf para verificar se ele é válido: ")
+    cpf = input("Digite um cpf para verificar se ele é válido: ")
+    
+    # Aloca os dígitos do cpf em seus respectivos grupos
     for i in range(len(cpf)):
         if i < 3:
             grupo_um.append(int(cpf[i]))
@@ -17,11 +19,13 @@ def main():
         else: 
             verificadores.append(int(cpf[i]))
         cpfs.append(cpf[i])
+    
+    
     print(f"O seu cpf é: {cpfs[0]}{cpfs[1]}{cpfs[2]}.{cpfs[3]}{cpfs[4]}{cpfs[5]}.{cpfs[6]}{cpfs[7]}{cpfs[8]}-{cpfs[9]}{cpfs[10]}")
-    print(type(grupo_um[0]))
-    print(type(grupo_dois[1]))
-    print(type(grupo_tres[2]))
-    print(type(verificadores[0]))
+    #print(type(grupo_um[0]))
+    #print(type(grupo_dois[1]))
+    #print(type(grupo_tres[2]))
+    #print(type(verificadores[0]))
 
     if check() == False:
         print("CPF inválido!")
