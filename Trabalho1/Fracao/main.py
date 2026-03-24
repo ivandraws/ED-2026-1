@@ -1,21 +1,24 @@
 from frac import Fraction
 
-def getNum():
-    num = int(input("Digite o numerador da fração: "))
-    return num
 
-def getDen():
-    den = int(input("Digite o denominador da fração: "))
-    return den
+frac1 = Fraction(3,5)
 
-print("Primeira fração:")
-frac1 = Fraction(getNum(),getDen())
-print("Segunda Fração: ")
-frac2 = Fraction(getNum(), getDen())
+frac2 = Fraction(2, 5)
 
 if __name__ == "__main__":
     
-    
+    print("Primeira fração:")
+    print(frac1.getNum())
+    print("-")
+    print(frac1.getDen())
+
+    print("Segunda Fração: ")
+    print(frac2.getNum())
+    print("-")
+    print(frac2.getDen())
+
+    print()
+
     print(frac1 + frac2)
     print(frac1 - frac2)
     print(frac1 * frac2)

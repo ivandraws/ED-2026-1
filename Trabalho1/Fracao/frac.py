@@ -9,6 +9,14 @@ class Fraction:
     def __str__(self):
         return str(self.num) + "/" + str(self.den)
     
+    # Pegar o valor do Numerador
+    def getNum(self):
+        return self.num
+    
+    # Pegar o valor do Denominador
+    def getDen(self):
+        return self.den
+
     # Método de adição
     def __add__(self, f2):
         if self.den == f2.den:
