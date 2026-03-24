@@ -30,3 +30,5 @@ class Fraction:
     def __truediv__(self, f2):
         return str(self.num * f2.den) + "/" + str(self.den * f2.num)
         #return Fraction(self.num * f2.den, self.den * f2.num)
+
+    
