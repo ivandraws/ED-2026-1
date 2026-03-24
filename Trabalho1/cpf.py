@@ -5,7 +5,7 @@ verificadores = []
 cpfs = []
 def main():
     # Pega o cpf em formato de str e converte nas listas separadas como valores int
-    cpf = input("Digite um cpf para verificar se ele é válido: ")
+    cpf = input("Digite um cpf para verificar se ele é válido (Somente números): ")
     
     # Aloca os dígitos do cpf em seus respectivos grupos
     for i in range(len(cpf)):
