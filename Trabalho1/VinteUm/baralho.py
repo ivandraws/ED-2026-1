@@ -10,6 +10,5 @@ class Baralho():
         for carta in self.cartas:
             print(carta)
 
-baralho = Baralho()
-baralho.show()
+
 

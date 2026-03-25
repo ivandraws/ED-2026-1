@@ -5,5 +5,3 @@ class Carta:
     def __str__(self):
         return str(self.numero) +"de"+str(self.carta)
     
-teste_carta = Carta(7,"ouros")
-print(teste_carta)
