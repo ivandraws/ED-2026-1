@@ -39,4 +39,15 @@ class Fraction:
         return str(self.num * f2.den) + "/" + str(self.den * f2.num)
         #return Fraction(self.num * f2.den, self.den * f2.num)
 
-    
+    def get_irreductible(self):
+        if self.num > self.den:
+            d = self.num
+            div = self.den
+        else:
+            d = self.den
+            div = self.num
+        while True:
+            quo = d / div
+            mdc = d % div
+            if quo == 0:
+                break
