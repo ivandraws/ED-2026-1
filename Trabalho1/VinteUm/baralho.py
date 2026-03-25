@@ -1,4 +1,5 @@
 from carta import Carta
+import random
 class Baralho():
     def __init__(self):
         self.cartas = []
@@ -9,6 +10,12 @@ class Baralho():
     def show(self):
         for carta in self.cartas:
             print(carta)
+        
+    def embaralhar(self):
+        random.shuffle(self.cartas)
+    
+    def removerCarta(self):
+        return self.cartas.pop(0)
 
-
-
+    def adicionarCarta(self, carta:Carta):
+        self.cartas.append(carta)
