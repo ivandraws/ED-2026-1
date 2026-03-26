@@ -1,34 +1,81 @@
-# Definição da Classe Fraction
-class Fraction:
+#função que retorna o máximo divisor comum entre a e b
+def mdc(a,b):
+    if a > b: 
+        a, b = b, a
     
-    # Inicializado com numerador e denominador
-    def __init__(self, top, bottom):
-        self.num = top
-        self.den = bottom
-    
-    def __str__(self):
-        return str(self.num) + "/" + str(self.den)
-    
-    # Método de adição
-    def __add__(self, f2):
-        if self.den == f2.den:
-            return str(self.num + f2.num) + "/" + str(self.den)
-        else:
-            return str((self.num * f2.den) + (f2.num * self.den)) + "/" + str(self.den * f2.den)
-    
-    # Método de subtração
-    def __sub__(self, f2):
-        if self.den == f2.den:
-            return str(self.num - f2.num) + "/" + str(self.den)
-        else:
-            return str((self.num * f2.den) - (f2.num * self.den)) + "/" + str(self.den * f2.den)
-    # Método de multiplicação
-    def __mul__(self, f2):
-        return str(self.num * f2.num) + "/" + str(self.den * f2.den)
-    
-    # Método de divisão
-    def __truediv__(self, f2):
-        return str(self.num * f2.den) + "/" + str(self.den * f2.num)
-        #return Fraction(self.num * f2.den, self.den * f2.num)
+    while True: 
+        r = a%b
+        if r == 0: 
+            return b
+        else: 
+            a = b
+            b = r
 
+
+class Fraction: 
+    def __init__(self, numer, denom):
+        self.num = numer
+        self.den = denom
+
+#método que muda o que o objeto fração mostra
+    def __str__(self):
+        return str(int(self.num)) + "/" + str(int(self.den)) 
     
+#método para tornar a fração irredutível
+    def reduc(self):
+        res = mdc(self.num, self.den)
+        self.num /= res
+        self.den /= res
+        return
+
+#método de adição
+    def __add__(self, other):
+        n = self.num * other.den + self.den * other.num
+        d = self.den * other.den
+        self.num = n
+        self.den = d
+        self.reduc()
+        return 
+
+#Método de subtração
+    def __sub__(self, other):
+        n = self.num * other.den - self.den * other.num
+        d = self.den * other.den
+        self.num = n
+        self.den = d
+
+        self.reduc()
+        return 
+
+#Método de multiplicação
+    def __mul__(self, other):
+        self.num *= other.num
+        self.den *= other.den
+
+        self.reduc()
+
+        return 
+
+#Método de divisão 
+    def __truediv__(self, other):
+        self.num *= other.den
+        self.den *= other.num
+
+        self.reduc()
+
+        return 
+
+def main():
+
+    #criação de duas frações para teste
+    n, d = map(int, input("insira o numerador e o denominador: ").split())
+    frac = Fraction(n, d)
+    x, y = map(int, input("insira o numerador e o denominador 2: ").split())
+    frac2 = Fraction(x, y)
+    
+    frac.__truediv__(frac2)
+    print(frac)
+    
+    return
+if __name__ == "__main__":
+    main()
