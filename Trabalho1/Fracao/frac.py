@@ -24,8 +24,8 @@ class Fraction:
 #método para tornar a fração irredutível
     def reduc(self):
         res = mdc(self.num, self.den)
-        self.num /= res
-        self.den /= res
+        self.num = int(self.num / res)
+        self.den = int(self.den / res)
         return
 
 #método de adição
@@ -35,7 +35,7 @@ class Fraction:
         self.num = n
         self.den = d
         self.reduc()
-        return 
+        return str(self.num) + "/" + str(self.den)
 
 #Método de subtração
     def __sub__(self, other):
@@ -45,7 +45,7 @@ class Fraction:
         self.den = d
 
         self.reduc()
-        return 
+        return str(self.num) + "/" + str(self.den)
 
 #Método de multiplicação
     def __mul__(self, other):
@@ -54,7 +54,7 @@ class Fraction:
 
         self.reduc()
 
-        return 
+        return str(self.num) + "/" + str(self.den)
 
 #Método de divisão 
     def __truediv__(self, other):
@@ -63,8 +63,15 @@ class Fraction:
 
         self.reduc()
 
-        return 
+        return str(self.num) + "/" + str(self.den)
 
+    def getNum(self):
+        return self.num
+
+    def getDen(self):
+        return self.den
+
+# Função de teste de mdc. TODO, remove later
 def main():
 
     #criação de duas frações para teste
