@@ -2,11 +2,16 @@ from baralho import Baralho
 from jogo import Jogo
 import os
 
+def limpa_tela():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 
 def main():
     
-    os.system("clear")
+    limpa_tela()
     print("----------Jogo do Vinte Um----------\n" \
         "Regras: Para ganhar, tem que conseguir exatamente uma pontuação de 21\n" \
         "Cada carta vale seu número base, com exceção do Valete, Rainha e Rei, que valem 10\n")
@@ -19,7 +24,8 @@ def main():
                 break
             case(2):
                 print(f"\nVitórias: {Game.vitoria}\nDerrotas: {Game.derrota}\n")
-                input("Pressione alguma tecla para continuar...")
+                input("Pressione enter para continuar...")
+                limpa_tela()
             case(0):
                 return 0
     
@@ -30,7 +36,7 @@ def gameplay():
         Game.distribuir()
         
         while True:
-            os.system("clear")
+            limpa_tela()
             player.mostrarMão()
             if escolha() == 1:
                 player.comprar(bar)
