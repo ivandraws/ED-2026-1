@@ -1,6 +1,7 @@
 from pathlib import Path
+from listaEncadeadaSimples import Fila
 
-def lerArquivos(comPrio, semPrio):
+def lerArquivos(comPrio: Fila, semPrio: Fila):
     '''
         ### Função para ler arquivos TXT
 
@@ -28,9 +29,9 @@ def lerArquivos(comPrio, semPrio):
 
             for i in pessoas:
                 if i.find("*") != -1:
-                    comPrio.append(i)
+                    comPrio.enqueue(i)
                 else:
-                    semPrio.append(i)
+                    semPrio.enqueue(i)
             
     except FileNotFoundError:
         print("Arquivo não existe. Tente novamente...")
