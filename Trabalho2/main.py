@@ -1,6 +1,7 @@
 #import node
 
 import os
+import subprocess
 from lerArquivo import lerArquivos
 from listaEncadeadaSimples import Fila
 
@@ -17,10 +18,10 @@ comPrio = Fila()
 def limpa_tela():
     if os.name == 'nt':
         # Roda só no Windows
-        os.system('cls')
+        subprocess.call('cls', shell=True)
     else:
         # Só sobra POSIX (Mac e Linux)
-        os.system('clear')
+        subprocess.call('clear', shell=True)
 
 def mostrarMenu():
     limpa_tela()
@@ -37,9 +38,10 @@ def verPrioridade(contPadrao):
         print(f"Próxima pessoa a ser atendida: {semPrio.firstQueue()}")
         print("Não é prioridade")
     else:
-        print(f"Próxima pessoa a ser atendida: {comPrio.fistQueue}")
+        print(f"Próxima pessoa a ser atendida: {comPrio.firstQueue()}")
         print("É prioridade")
-        
+
+
     
 def menu():
     '''
@@ -67,37 +69,43 @@ def menu():
                 if pessoa_count > 0:
                     pessoa_count -= 1
                     # Verifica se: o contador da prioridade e se existem elementos nos grupos de pessoa
-                    if(contPadrao != 3) and len(semPrio) > 0:
-                        print(f"Atendimento Sem Prioridade para {semPrio.pop(0)}")
+                    if(contPadrao != 3) and semPrio.len() > 0:
+                        print(f"Atendimento Sem Prioridade para {semPrio.firstQueue()}")
+                        semPrio.dequeue()
                         contPadrao += 1
-                    elif len(comPrio) > 0:
+                    elif comPrio.len() > 0:
                         atendPref += 1
-                        print(f"Atendimento Com Prioridade para {comPrio.pop(0)}")
+                        print(f"Atendimento Com Prioridade para {comPrio.firstQueue()}")
+                        comPrio.dequeue()
                         contPadrao = 0
                     else:
                         print("Houston, temos problemas. Erro Inesperado no atendimento!")
                         input("Presione Enter para continuar....")
 
                     atendTotal += 1
-                    input("Presione Enter para continuar....")
+                    
                 else:
                     print("Não existe mais pessoas na fila")
+
+                input("Presione Enter para continuar....")
                 print()
             
             case 3:
-                print(f"Sem prioridade: {semPrio}")
-                print(f"Com prioridade: {comPrio}")
+                print(f"Sem prioridade: {semPrio.show()}")
+                print(f"Com prioridade: {comPrio.show()}")
                 input("Presione Enter para continuar....")
             
             case 4:
                 lerArquivos(comPrio, semPrio)
-                pessoa_count = len(semPrio) + len(comPrio)
+                pessoa_count = semPrio.len() + comPrio.len()
                 input("Presione Enter para continuar....")
             
             case 5:
                 pes = input("Digite o nome da pessoa: ")
                 if input("É prioridade ? (Y/N)") == "Y":
-                    comPrio.append(pes)
+                    comPrio.enqueue(pes)
+                else:
+                    semPrio.enqueue(pes)
                 pessoa_count += 1
                 input("Presione Enter para continuar....")
             case 0:
@@ -116,7 +124,7 @@ def menu():
                         print("Ninguém foi atendido. Dia bem produtivo....")
                     return
                 else:
-                    print("Não é possível sair. Tem pessoas na fila!")
+                    print(f"Não é possível sair. Tem {pessoa_count} pessoa(s) na fila!")
                     input("Pressione enter para continuar...")
                     print() 
     
