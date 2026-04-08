@@ -14,6 +14,7 @@ class Fila:
         if not self.isEmpty():
             if aux.next == None:
                 value = aux.value
+                aux = aux.next
                 return value
             while True:
                 if aux.next.next !=  None:
@@ -24,6 +25,7 @@ class Fila:
                     return value
         else: 
             return None
+        
 
     def show(self):
         print("final <- ", end='')
@@ -38,14 +40,22 @@ class Fila:
         print("HEAD")
 
     def firstQueue(self):
-        return self.head.value
+        aux = self.head 
+        while True:
+            if self.isEmpty():
+                return None
+            elif aux.next == None:
+                return aux.value
+            else:
+                aux = aux.next
 
     def len(self):
         size = 0
         aux = self.head 
-        while aux.next != None: 
+        while aux != None: 
             size += 1
             aux = aux.next
+        return size
     
 
     def isEmpty(self):
