@@ -32,7 +32,7 @@ def menu():
     atendPref = 0 # Guarda quantas prioridades foram atendidas
     contPadrao = 0 #Variável de teste para manter o pradrão 1\3
     while True:
-
+        limpa_tela()
         print("------Atendimento do Mercado da Memória RAM------")
         print("1. Ver prioridade da pessoa") # Dizer se é ou não prioridade
         print("2. Atendimento de pessoa") # Chamar a pessoa para atendimento
@@ -40,7 +40,10 @@ def menu():
         print("4. Carregar arquivo TXT para armazenamento de fila") # Ler arquivos TXT contendo pessoas para colocar na fila
         print("5. Carregar manualmento as pessoas") # Opção de DEBUG para adicionar pessoas manualmente
         print("0. Sair\n") # Preciso mesmo que comentar isso ?
-        choice = int(input())
+        try:
+            choice = int(input())
+        except ValueError:
+            input("Valor inválido. Presione Enter e tente novamente...")
 
         
         match (choice):
@@ -51,6 +54,7 @@ def menu():
                 else:
                     print(f"Próxima pessoa a ser atendida: {comPrio[0]}")
                     print("É prioridade")
+                input("Presione Enter para continuar....")
             
             case 2:
                 if pessoa_count > 0:
@@ -68,6 +72,7 @@ def menu():
                         input("Presione Enter para continuar....")
 
                     atendTotal += 1
+                    input("Presione Enter para continuar....")
                 else:
                     print("Não existe mais pessoas na fila")
                 print()
@@ -75,17 +80,19 @@ def menu():
             case 3:
                 print(f"Sem prioridade: {semPrio}")
                 print(f"Com prioridade: {comPrio}")
+                input("Presione Enter para continuar....")
             
             case 4:
                 lerArquivos()
                 pessoa_count = len(semPrio) + len(comPrio)
+                input("Presione Enter para continuar....")
             
             case 5:
                 pes = input("Digite o nome da pessoa: ")
                 if input("É prioridade ? (Y/N)") == "Y":
                     comPrio.append(pes)
                 pessoa_count += 1
-            
+                input("Presione Enter para continuar....")
             case 0:
                 
                 if pessoa_count == 0 or pessoa_count < 0:
@@ -105,6 +112,7 @@ def menu():
                     print("Não é possível sair. Tem pessoas na fila!")
                     input("Pressione enter para continuar...")
                     print()
+            
 
 
 
