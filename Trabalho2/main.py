@@ -34,12 +34,13 @@ def mostrarMenu():
     print("0. Sair\n") # Preciso mesmo que comentar isso ?
 
 def verPrioridade(contPadrao):
-    if contPadrao != 3:
-        print(f"Próxima pessoa a ser atendida: {semPrio.firstQueue()}")
-        print("Não é prioridade")
-    else:
+    if contPadrao == 0:
         print(f"Próxima pessoa a ser atendida: {comPrio.firstQueue()}")
         print("É prioridade")
+        
+    else:
+        print(f"Próxima pessoa a ser atendida: {semPrio.firstQueue()}")
+        print("Não é prioridade")
 
 
     
@@ -67,20 +68,26 @@ def menu():
             
             case 2:
                 if pessoa_count > 0:
-                    pessoa_count -= 1
+
                     # Verifica se: o contador da prioridade e se existem elementos nos grupos de pessoa
-                    if(contPadrao != 3) and semPrio.len() > 0:
-                        print(f"Atendimento Sem Prioridade para {semPrio.firstQueue()}")
-                        semPrio.dequeue()
-                        contPadrao += 1
-                    elif comPrio.len() > 0:
+                    if(contPadrao == 0 and comPrio.len() > 0):
                         atendPref += 1
                         print(f"Atendimento Com Prioridade para {comPrio.firstQueue()}")
                         comPrio.dequeue()
-                        contPadrao = 0
+                        if semPrio.len() > 0:
+                            contPadrao += 1
+                        pessoa_count -= 1
+                    elif contPadrao > 0 or semPrio.len() > 0:
+                        print(f"Atendimento Sem Prioridade para {semPrio.firstQueue()}")
+                        semPrio.dequeue()
+                        if (contPadrao == 3 and comPrio.len() > 0) or semPrio.len() == 0:
+                            contPadrao = 0
+                        else:
+                            contPadrao += 1
+                        pessoa_count -= 1
+                        
                     else:
                         print("Houston, temos problemas. Erro Inesperado no atendimento!")
-                        input("Presione Enter para continuar....")
 
                     atendTotal += 1
                     
