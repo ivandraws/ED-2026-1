@@ -14,7 +14,7 @@ class Fila:
         if not self.isEmpty():
             if aux.next == None:
                 value = aux.value
-                aux = aux.next
+                self.head = None
                 return value
             while True:
                 if aux.next.next !=  None:
@@ -26,12 +26,12 @@ class Fila:
         else: 
             return None
         
-
+        
     def show(self):
         print("final <- ", end='')
         aux = self.head
         while True:
-            print(f"{aux} <- ", end='' )
+            print(f"{aux.value} <- ", end='' )
             if aux.next == None:
                 break
             else: 
