@@ -6,6 +6,8 @@ class Jogo():
         self.jogador = Jogador()
         self.baralho = Baralho()
         self.baralho.embaralhar()
+        self.vitoria = 0
+        self.derrota = 0
 
     def distribuir(self):
         for i in range(2):
@@ -21,9 +23,12 @@ class Jogo():
 
         if soma == 21:
             print("Você Ganhou!")
+            self.vitoria += 1
         else:
             print("Você foi moggado")
-            self.resetar()
+            self.derrota += 1
+            
+        self.resetar()
 
     def resetar(self):
         self.jogador.devolverParaOBaralho(self.baralho)

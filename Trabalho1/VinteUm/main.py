@@ -1,37 +1,55 @@
 from baralho import Baralho
 from jogo import Jogo
+import os
 
+def limpa_tela():
+    if os.name == 'nt':
+        os.system('cls')
+    else:
+        os.system('clear')
 
 
 def main():
-
     
+    limpa_tela()
     print("----------Jogo do Vinte Um----------\n" \
         "Regras: Para ganhar, tem que conseguir exatamente uma pontuação de 21\n" \
         "Cada carta vale seu número base, com exceção do Valete, Rainha e Rei, que valem 10\n")
-    opt = int(input("Deseja começar o jogo ?\n1. Iniciar\n0. Sair\n"))
-    if opt == 1:
-        #iniciar jogo
-        Jooj = Jogo()
-    elif opt == 0:
-        return
-    
-    
-    while True:    
+    while True:
+        opt = int(input("Deseja começar o jogo do 21 ?\n1. Iniciar\n2. Mostrar estatísticas\n0. Sair\n\n"))
         
-        player = Jooj.jogador
-        bar = Jooj.baralho
-        Jooj.distribuir()
+        match (opt):
+            case(1):
+                gameplay()
+                break
+            case(2):
+                print(f"\nVitórias: {Game.vitoria}\nDerrotas: {Game.derrota}\n")
+                input("Pressione enter para continuar...")
+                limpa_tela()
+            case(0):
+                return 0
+    
+
+def gameplay():
+    while True:    
+        print()
+        Game.distribuir()
         
         while True:
+            limpa_tela()
             player.mostrarMão()
             if escolha() == 1:
                 player.comprar(bar)
             else:
                 break
-        Jooj.verificarVitória()    
+        Game.verificarVitória()    
         
-        return
+        o = int(input("Você quer começar uma nova partida ?\n1. Sim\n0. Não\n"))
+        if o == 0:
+            return   
+    
+    
+        
             
 
 
@@ -40,5 +58,9 @@ def escolha():
     return escol
 
 if __name__ == "__main__":
-    
-    main()
+    Game = Jogo()
+    player = Game.jogador
+    bar = Game.baralho
+    while True:
+        if main() == 0:
+            break
