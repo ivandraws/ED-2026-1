@@ -59,6 +59,7 @@ def menu():
             choice = int(input())
         except ValueError:
             input("Valor inválido. Presione Enter e tente novamente...")
+            continue
 
         
         match (choice):
@@ -98,8 +99,8 @@ def menu():
                 print()
             
             case 3:
-                print(f"Sem prioridade: {semPrio.show()}")
-                print(f"Com prioridade: {comPrio.show()}")
+                semPrio.show(False)
+                comPrio.show(True)
                 input("Presione Enter para continuar....")
             
             case 4:
@@ -124,8 +125,10 @@ def menu():
                     
                     if atendTotal > 0:
                         # Evita divisão por zero
+                        porcAtendPref = (atendPref / atendTotal) * 100
                         print(f"Total de atendimentos: {atendTotal}")
-                        print(f"Porcentagem de pessoas de prioriade: {(atendPref / atendTotal) * 100:.2f}%")
+                        print(f"Porcentagem de pessoas de prioriade: {porcAtendPref:.2f}%")
+                        print(f"Porcentagem de pessoas sem prioridade: {100.00 - porcAtendPref :.2f}%")
                     
                     else:
                         print("Ninguém foi atendido. Dia bem produtivo....")

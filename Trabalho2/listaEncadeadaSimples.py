@@ -27,15 +27,24 @@ class Fila:
             return None
         
         
-    def show(self):
+    def show(self, prio):
+        if prio == True:
+            print("Com prioridade: ", end='')
+        else:
+            print("Sem prioridade: ", end='')
         print("final <- ", end='')
         aux = self.head
         while True:
-            print(f"{aux.value} <- ", end='' )
-            if aux.next == None:
-                break
-            else: 
-                aux = aux.next
+            if aux != None:
+                print(f"{aux.value} <- ", end='' )
+                if aux.next == None:
+                    break
+                else: 
+                    aux = aux.next
+            else:
+                print("vazio")
+                return
+            
         
         print("HEAD")
 
