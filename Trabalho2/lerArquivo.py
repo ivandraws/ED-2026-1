@@ -25,11 +25,16 @@ def lerArquivos(comPrio: Fila, semPrio: Fila):
             for i in range(len(pessoas)):
                 pessoas[i] = pessoas[i].replace(" ", "")
             print(pessoas)
-
+        
+            
 
             for i in pessoas:
                 if i.find("*") != -1:
                     comPrio.enqueue(i)
+                elif i.endswith(";sim"):
+                    comPrio.enqueue(i.split(";")[0])
+                elif i.endswith(";nao"):
+                    semPrio.enqueue(i.split(";")[0])
                 else:
                     semPrio.enqueue(i)
             
