@@ -1,5 +1,3 @@
-#import node
-
 import os
 import subprocess
 from lerArquivo import lerArquivos
@@ -22,6 +20,7 @@ def mostrarMenu():
     print("3. Listar a fila toda")
     print("4. Carregar arquivo TXT")
     print("5. Adicionar pessoa manualmente")
+    print("6. Atender toda a fila")
     print("0. Sair\n")
 
 def verPrioridade(estado):
@@ -33,6 +32,13 @@ def verPrioridade(estado):
         print("Não é prioridade")
     else:
         print("Fila vazia")
+
+def atenderTodos(estado, comPrio, semPrio):
+    print(f"Iniciando atendimento de {estado["pessoa_count"]}")
+    cont = estado["pessoa_count"]
+    for i in range(cont):
+        atendepessoa(estado, comPrio, semPrio)
+    input("Enter...")
 
 def atendepessoa(estado, comPrio, semPrio):
     if estado["pessoa_count"] > 0:
@@ -138,6 +144,9 @@ def menu():
             case 5:
                 adicionarPessoa(estado, comPrio, semPrio)
                 input("Enter...")
+            
+            case 6:
+                atenderTodos(estado, comPrio, semPrio)
 
             case 0:
                 if finalizarAtendimento(estado):
