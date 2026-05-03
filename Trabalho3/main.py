@@ -1,4 +1,7 @@
-import os, subprocess, arquivo, insertion
+#teste luiz
+import os, subprocess, arquivo, insertion,timeit
+import numpy as np
+import matplotlib.pyplot as plb
 
 def limpa_tela():
     """Função responsável por limpar o terminal para uma
@@ -45,6 +48,7 @@ def ordenar_lista_nomes(nomes:list):
         match opc:
             case 1:
                 return insertion.insertionSort(nomes.copy())
+
             case 2:
                 return insertion.insertionSortAux(nomes)
             case 3:
@@ -65,8 +69,15 @@ def listarNomesArquivo(nomes:list):
 def salvarOrdenados(nomes:list):
     arquivo.salvarOrdenados(nomes)
 
-def mostrarEstatísticas():
-    #TODO
+def mostrarEstatísticas(resultados):
+    # Aqui eu vou ter um dicionário para armazenar o meu tipo de algoritmo de ordenacao ( chave ) e o tempo que levou para ordenar ( valor )
+    tiposAlgoritmo = resultados.keys()
+    tempoAlgoritmo = resultados.values()
+    x = np.array(tiposAlgoritmo)
+    y = np.array(tempoAlgoritmo)
+    plb.bar(x,y)
+    plb.show()
+
     pass
 
 
@@ -77,17 +88,25 @@ def main():
         limpa_tela()
         mostrar_menu()
         opc = input()
-
+        resultados = {}
         match opc:
             case 1:
-                pass
+                arquivoOriginal = carregar_NovoArquivo()
+    
             case 2:
-                pass
+                ordenar_lista_nomes(novoArquivo)
+
+                
             case 3:
-                pass
+                listarNomesArquivo(novoArquivo)
+        
             case 4:
-                pass            
+                listarNomesArquivo(novoArquivo)
+                pass
             case 5:
+                pass
+            case 6:
+                mostrarEstatísticas(resultados)
                 pass
             case 0:
                 print("Fim do programa!")
