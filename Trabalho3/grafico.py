@@ -1,4 +1,5 @@
-import matplotlib.pyplot as plb
+import matplotlib.pyplot as plt
+import  numpy as np
 import timeit
 import insertion
 
@@ -13,17 +14,56 @@ def medicaoDeTempo(nomes):
     _, comp_a, troc_a = insertion.insertionSortAux(nomes.copy())
     fim_a = timeit.default_timer()
 
-    return {
-        "Clássico": fim_c - ini_c,
-        "Auxiliar": fim_a - ini_a
+    algoritmos = ("Clássico", "Auxiliar")
+    metricas = {
+        "Tempo": (fim_c - ini_c,fim_a - ini_a),
+        "Comparações": (comp_c, comp_a),
+        "Trocas": (troc_c , troc_a)
     }
 
-def criarGrafico(resultados):
-    if not resultados:
+    return algoritmos, metricas
+
+
+def criarGrafico(algoritimos, resultados):
+    if not resultados or not algoritimos:
         print("Sem dados.")
         return
-    x = list(resultados.keys())
-    y = list(resultados.values())
-    plb.bar(x, y, color=["navy", "skyblue"])
-    plb.ylabel("Tempo (segundos)")
-    plb.show()
+    x = np.arange(len(algoritimos))  # the label locations
+    width = 0.25  # the width of the bars
+    multiplier = 0
+
+    fig, ax = plt.subplots(layout='constrained')
+
+    for attribute, measurement in resultados.items():
+        offset = width * multiplier
+        rects = ax.bar(x + offset, measurement, width, label=attribute)
+        ax.bar_label(rects, padding=3)
+        multiplier += 1
+
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    ax.set_ylabel('Segundos(s)')
+    ax.set_title('Comparação da eficiência dos algorítmos')
+    ax.set_xticks(x + width, algoritimos)
+    ax.legend(loc='upper left', ncols=3)
+    ax.set_ylim(0, 250)
+
+    print(resultados["Comparações"][0])
+    print(resultados["Comparações"][1])
+    print(resultados["Trocas"][0])
+    print(resultados["Trocas"][1])
+    
+    fig, ay = plt.subplots(layout='constrained')
+
+    #Refazer
+    for attribute, measurement in resultados.items():
+        offset = width * multiplier
+        rects = ay.bar(x + offset, measurement, width, label=attribute)
+        ay.bar_label(rects, padding=3)
+        multiplier += 1
+
+    ay.set_ylabel('Quantidade')
+    ay.set_title('Quantidade de comparações e trocas entre algorítimos de insertion')
+    ay.set_xticks(x + width, algoritimos)
+    ay.legend(loc='upper left', ncols = 3)
+    ay.set_ylim(0, 1000000000)
+    plt.show()

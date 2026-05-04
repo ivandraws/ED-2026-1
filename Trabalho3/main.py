@@ -1,6 +1,9 @@
 import os, subprocess, arquivo, insertion, grafico
 import numpy as np
 import matplotlib.pyplot as plb
+from pathlib import Path
+
+PathAtual = Path(__file__).parent # Adicionado para resolver problema não esperado em Macbook Air M4
 
 def limpa_tela():
     """Função responsável por limpar o terminal  para uma 
@@ -26,7 +29,8 @@ def mostrar_menu():
     )
 
 def carregar_NovoArquivo():
-    diretorio = input("Insira o diretório com os nomes: ")
+    arq = input("Insira o diretório com os nomes: ")
+    diretorio = PathAtual / arq # Incluido para resolver FileNotFoundError in MacOS
     return arquivo.carregarArquivodeNomes(diretorio)
 
 def ordenar_lista_nomes(nomes:list):
@@ -42,6 +46,8 @@ def ordenar_lista_nomes(nomes:list):
         match opc:
             case "1":
                 # Retorna a tupla (lista, comp, trocas)
+                print("Carregando arquivo de texto.")
+                input("Enter para continuar...")
                 return insertion.insertionSort(nomes.copy())
             case "2":
                 return insertion.insertionSortAux(nomes.copy())
@@ -67,6 +73,7 @@ def main():
         match opc:
             case "1":
                 arrayOriginal = carregar_NovoArquivo()
+                input("Carregado com sucesso. Enter para continuar...")
     
             case "2":
                 if not arrayOriginal:
@@ -106,8 +113,8 @@ def main():
                 if not arrayOriginal:
                     input("Sem dados para estatística.")
                 else:
-                    resultados = grafico.medicaoDeTempo(arrayOriginal)
-                    grafico.criarGrafico(resultados)
+                    alg, metricas = grafico.medicaoDeTempo(arrayOriginal)
+                    grafico.criarGrafico(alg, metricas)
             
             case "0":
                 print("Fim do programa!")

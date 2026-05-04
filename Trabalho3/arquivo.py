@@ -15,7 +15,6 @@ def carregarArquivodeNomes(diretorio: str):
 
                 nomes[i]= nome.rstrip('\n')
 
-            print(nomes)
             return nomes
 
     except Exception as e:
@@ -30,5 +29,3 @@ def salvarOrdenados(nomes: list):
     except Exception as e:
         print(f"Erro ao salvar: {e}")
 
-
-carregarArquivodeNomes("/home/heder/Estudos/Estrutura de Dados/ED-2026-1/Trabalho3/nomes.txt")
