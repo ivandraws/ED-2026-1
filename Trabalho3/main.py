@@ -1,32 +1,29 @@
-#teste luiz
-import os, subprocess, arquivo, insertion,timeit
+import os, subprocess, arquivo, insertion, grafico
 import numpy as np
 import matplotlib.pyplot as plb
 
 def limpa_tela():
-    """Função responsável por limpar o terminal para uma
+    """Função responsável por limpar o terminal  para uma 
     melhor visualização"""
-
     if os.name == 'nt':
         subprocess.call('cls', shell=True)
     else:
         subprocess.call('clear', shell=True)
 
 def mostrar_menu():
-    """Mostra o menu de opções para o usuário"""
+    """"Mostrar o menu de opções para o usuário"""
     limpa_tela()
     print(
     "=================== AGENDA DE CONTATOS ===================\n"
-
     "Digite a opção desejada:\n"  
-    "1 - Carregar outro arquivo de nomes\n" \
-    "2 - Ordenar Arquivo e listar os nomes\n" \
-    "3 - Listar dados originais\n" \
-    "5 - Salvar lista ordenada\n" \
-    "6 - Mostrar estatísticas\n"\
+    "1 - Carregar outro arquivo de nomes\n"
+    "2 - Ordenar Arquivo e listar os nomes\n"
+    "3 - Listar dados originais\n"
+    "4 - Listar dados ordenados\n"
+    "5 - Salvar lista ordenada\n"
+    "6 - Mostrar estatísticas\n"
     "0 - Sair"
     )
-
 
 def carregar_NovoArquivo():
     diretorio = input("Insira o diretório com os nomes: ")
@@ -39,77 +36,84 @@ def ordenar_lista_nomes(nomes:list):
         """Qual Algoritmo deseja utilizar?:
             1 - Insertion clássico
             2 - Insertion com ListaAuxiliar
-            3 - ambos
             0 - cancelar
-        """    
-        )
-
+        """)
         opc = input()
         match opc:
-            case 1:
+            case "1":
+                # Retorna a tupla (lista, comp, trocas)
                 return insertion.insertionSort(nomes.copy())
-
-            case 2:
-                return insertion.insertionSortAux(nomes)
-            case 3:
-                #TODO
-                pass
-            case 0:
-                #TODO
-                pass
+            case "2":
+                return insertion.insertionSortAux(nomes.copy())
+            case "0":
+                return None, 0, 0 
             case _:
-                input("Opção inválida, aperte qualquer botão para continuar...")
+                input("Opção inválida...")
 
 def listarNomesArquivo(nomes:list):
-    for i,nome in enumerate(nomes):
+    for i, nome in enumerate(nomes):
         print(nome, end=" ")
-        if i%10 == 0:
+        if (i + 1) % 10 == 0:
             print("\n")
 
-def salvarOrdenados(nomes:list):
-    arquivo.salvarOrdenados(nomes)
-
-def mostrarEstatísticas(resultados):
-    # Aqui eu vou ter um dicionário para armazenar o meu tipo de algoritmo de ordenacao ( chave ) e o tempo que levou para ordenar ( valor )
-    tiposAlgoritmo = resultados.keys()
-    tempoAlgoritmo = resultados.values()
-    x = np.array(tiposAlgoritmo)
-    y = np.array(tempoAlgoritmo)
-    plb.bar(x,y)
-    plb.show()
-
-    pass
-
-
-
 def main():
-    
+    arrayOriginal = []
+    arrayOrdenado = []
+    resultados = {}
+
     while True:
-        limpa_tela()
         mostrar_menu()
         opc = input()
-        resultados = {}
         match opc:
-            case 1:
-                arquivoOriginal = carregar_NovoArquivo()
+            case "1":
+                arrayOriginal = carregar_NovoArquivo()
     
-            case 2:
-                ordenar_lista_nomes(novoArquivo)
-
+            case "2":
+                if not arrayOriginal:
+                    input("Carregue o arquivo primeiro!")
                 
-            case 3:
-                listarNomesArquivo(novoArquivo)
+                else:
+                    arrayOrdenado, comp, troc = ordenar_lista_nomes(arrayOriginal)
+                    
+                    if arrayOrdenado:
+                        print(f"\nOrdenação concluída!\nComparações: {comp}\nTrocas: {troc}\n")
+                        listarNomesArquivo(arrayOrdenado)
+                        input("\nPressione Enter para continuar...")
+
+            case "3":
+                if not arrayOriginal:
+                    input("Array vazio. Tente carregar um arquivo ( Opção 1 )")
+                else:
+                    listarNomesArquivo(arrayOriginal)
+                    input("\nEnter para voltar...")
         
-            case 4:
-                listarNomesArquivo(novoArquivo)
-                pass
-            case 5:
-                pass
-            case 6:
-                mostrarEstatísticas(resultados)
-                pass
-            case 0:
+            case "4":
+                if not arrayOrdenado:
+                    input("Nada ordenado ainda.")
+                else:
+                    listarNomesArquivo(arrayOrdenado)
+                    input("\nEnter para voltar...")
+            
+            case "5":
+                if not arrayOrdenado:
+                    input("Nada para salvar.")
+                else:
+                    arquivo.salvarOrdenados(arrayOrdenado)
+                    print("Arquivo salvo com sucesso.")
+                    input()
+            
+            case "6":
+                if not arrayOriginal:
+                    input("Sem dados para estatística.")
+                else:
+                    resultados = grafico.medicaoDeTempo(arrayOriginal)
+                    grafico.criarGrafico(resultados)
+            
+            case "0":
                 print("Fim do programa!")
                 return
             case _:
-                input("Opção inválida, aperte qualquer botão para continuar...")
+                input("Opção inválida...")
+
+if __name__ == "__main__":
+    main()
