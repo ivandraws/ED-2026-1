@@ -16,9 +16,9 @@ def medicaoDeTempo(nomes):
 
     algoritmos = ("Clássico", "Auxiliar")
     metricas = {
-        "Tempo": (fim_c - ini_c,fim_a - ini_a),
-        "Comparações": (comp_c, comp_a),
-        "Trocas": (troc_c , troc_a)
+        "Tempo": (round(fim_c - ini_c, 3),round(fim_a - ini_a, 3)),
+        "Comparações": (int(comp_c / 1000), int(comp_a / 1000)),
+        "Trocas": (int(troc_c / 1000), int(troc_a / 1000))
     }
 
     return algoritmos, metricas
@@ -52,20 +52,12 @@ def criarGrafico(algoritimos, resultados):
     ax.set_xticks(x, algoritimos)
     ax.legend(loc='upper left', ncols=1)
     ax.set_ylim(0, int(resultados["Tempo"][1]) * 4)
-
-    print(resultados["Comparações"][0])
-    print(resultados["Comparações"][1])
-    print(resultados["Trocas"][0])
-    print(resultados["Trocas"][1])
-    
     
 
-    #Refazer
 
-
-    ay.set_ylabel('Quantidade')
+    ay.set_ylabel('Quantidade por mil partes (10^3)')
     ay.set_title('Quantidade de comparações e trocas entre algorítimos de insertion')
     ay.set_xticks(x + width + 0.13, algoritimos)
     ay.legend(loc='upper left', ncols = 2)
-    ay.set_ylim(0, 1000000000)
+    ay.set_ylim(0, 1000000)
     plt.show()
