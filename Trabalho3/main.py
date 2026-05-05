@@ -46,8 +46,6 @@ def ordenar_lista_nomes(nomes:list):
         match opc:
             case "1":
                 # Retorna a tupla (lista, comp, trocas)
-                print("Carregando arquivo de texto.")
-                input("Enter para continuar...")
                 return insertion.insertionSort(nomes.copy())
             case "2":
                 return insertion.insertionSortAux(nomes.copy())
