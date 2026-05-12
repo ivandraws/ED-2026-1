@@ -8,17 +8,43 @@ void bubble(int *conj, int size);
 void selection(int *conj, int size);
 void insertion(int *conj, int size);
 
+
+
 int main(int argc, char const *argv[])
 {
+    // TODO: Test setlocale() later
+    /*
+    if (argc != 2 && argv[1] < 1 || argv[1] > 1000001 && argv[2] == NULL)
+    {
+        printf("Usage: ./algo <numero_de_elementos> <arquivo.txt>");
+        printf("Lembre-se, o máximo que o array pode chegar é 1 milhão);
+    }
+    */
+
+    setlocale(LC_ALL, "UTF-8");
     int total = 50000;
     int *arr = malloc(total * sizeof(int));
-    int *bubArr = malloc(total * sizeof(int));
-    int *insArr = malloc(total * sizeof(int));
     if (arr == NULL)
     {
-        printf("Falha na alocacao de memoria");
+        printf("Falha na alocação de memória\n");
         return 1;
     }
+    int *bubArr = malloc(total * sizeof(int));
+    if (bubArr == NULL)
+    {
+        printf("Falha na alocação de memória\n");
+        free(arr);
+        return 1;
+    }
+    int *insArr = malloc(total * sizeof(int));
+    if (insArr == NULL)
+    {
+        printf("Falha na alocaação de memória\n");
+        free(arr);
+        free(bubArr);
+        return 1;
+    }
+    
 
     FILE *teste = fopen("numeros.txt", "r");
     if (teste == NULL)
@@ -34,7 +60,7 @@ int main(int argc, char const *argv[])
 
     memcpy(bubArr, arr, total * sizeof(arr[0]));
     memcpy(insArr, arr, total * sizeof(arr[0]));
-    printf("Carregado com sucesso!");
+    printf("Carregado com sucesso!\n");
     
     fclose(teste);
     bubble(bubArr, total);
@@ -81,33 +107,36 @@ void bubble(int *conj, int size)
 
 void selection(int *conj, int size)
 {
-    int interact = 0, selecPos;
+    int interact = 0;
     clock_t timeReq;
     timeReq = clock();
+    int min;
     while (interact < size)
     {
-        printf("Interacao %i\n", interact);
-        int selecionado = conj[interact];
-        for (int i = interact; i < size - 1; i++)
-        {
-            if (selecionado < conj[i+1])
+        //printf("Interacao %i\n", interact);
+        min = interact;
+        for (int i = interact + 1; i < size ; i++)
+        {   
+            if (conj[i] < conj[min])
             {
-                selecionado = conj[i+1];
-                selecPos = i+1;
+                min = i;
             }
         }
+        int tmp = conj[interact];
+        conj[interact] = conj[min];
+        conj[min] = tmp;
 
-        for (int i = selecPos; i > interact + 1; i--)
-        {
-            int tmp = conj[i];
-            conj[i] = conj[i - 1];
-            conj[i - 1] = tmp;
-        }
+        
 
         interact++;
     }
     timeReq = clock() - timeReq;
-
+    /*
+    for (int i = 0; i < size; i++)
+    {
+        printf("%i\n", conj[i]);
+    }
+    */
     printf("Programa demorou %f segundos para organizar em selection\n", (float)timeReq / CLOCKS_PER_SEC);
     
     return;
@@ -115,30 +144,30 @@ void selection(int *conj, int size)
 
 void insertion(int *conj, int size)
 { 
-    // TODO
+    // TODO (Luiz)
     return;
 }
 
 void shell(int *conj, int size)
 { 
-    // TODO
+    // TODO (Héder)
     return;
 }
 
 void heap(int *conj, int size)
 { 
-    // TODO
+    // TODO (Héder)
     return;
 }
 
 void merge(int *conj, int size)
 { 
-    // TODO
+    // TODO (Luiz)
     return;
 }
 
 void quick(int *conj, int size)
 { 
-    // TODO
+    // TODO (Luiz e Ivan)
     return;
 }
