@@ -44,7 +44,22 @@ int main(int argc, char const *argv[])
         free(bubArr);
         return 1;
     }
-    
+    int *selecArry = malloc(total * sizeof(int));
+    if(selecArry == NULL)
+    {
+        printf("Falha na alocação de memória\n");
+        free(arr);
+        free(selecArry);
+        return 1;
+    }
+    int *mergeArry = malloc(total * sizeof(int));
+    if(mergeArry == NULL)
+    {
+        printf("Falha na alocação de memória\n");
+        free(arr);
+        free(mergeArry);
+        return 1;
+    }
 
     FILE *teste = fopen("numeros.txt", "r");
     if (teste == NULL)
@@ -60,11 +75,13 @@ int main(int argc, char const *argv[])
 
     memcpy(bubArr, arr, total * sizeof(arr[0]));
     memcpy(insArr, arr, total * sizeof(arr[0]));
+    memcpy(selecArry,arr,total * sizeof(arr[0]));
     printf("Carregado com sucesso!\n");
     
     fclose(teste);
     bubble(bubArr, total);
     selection(insArr, total);
+    insertion(selecArry,total);
 /*   
     for (int i = 0; i < total; i++)
     {
@@ -74,6 +91,7 @@ int main(int argc, char const *argv[])
     free(arr);
     free(bubArr);
     free(insArr);
+    free(selecArry);
     return 0;
 }
 
@@ -144,7 +162,27 @@ void selection(int *conj, int size)
 
 void insertion(int *conj, int size)
 { 
-    // TODO (Luiz)
+    int interect = 0;
+    clock_t timeReq = clock();
+    for (int i = 1; i< size; i++){
+        int chave = conj[i];
+        int j = 1 - 1;
+
+        while( j>= 0){
+            interect++;
+            if( conj[j] > chave){
+                conj[j + 1] = conj[j];
+                j--;
+            }
+            else{
+                break;
+            }
+        conj[j + 1] = chave;
+        }
+    }
+    timeReq = clock() - timeReq;
+    printf("Progama demorou %f segundos para organizar em insertion\n",(float)timeReq/CLOCKS_PER_SEC);
+
     return;
 }
 
