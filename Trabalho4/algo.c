@@ -80,8 +80,8 @@ int main(int argc, char const *argv[])
     
     fclose(teste);
     bubble(bubArr, total);
-    selection(insArr, total);
-    insertion(selecArry,total);
+    selection(selecArry, total);
+    insertion(insArr,total);
 /*   
     for (int i = 0; i < total; i++)
     {
@@ -92,6 +92,7 @@ int main(int argc, char const *argv[])
     free(bubArr);
     free(insArr);
     free(selecArry);
+    free(mergeArry);
     return 0;
 }
 
@@ -207,5 +208,11 @@ void merge(int *conj, int size)
 void quick(int *conj, int size)
 { 
     // TODO (Luiz e Ivan)
+    return;
+}
+
+void free_all()
+{
+    // TODO
     return;
 }
