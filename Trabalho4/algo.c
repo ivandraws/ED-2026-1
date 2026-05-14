@@ -163,6 +163,7 @@ void selection(int *conj, int size)
 
 void insertion(int *conj, int size)
 { 
+    // FIXME - O tempo estava em 0.0000067 segundos. Fui testar e Não Está Ordenando.
     int interect = 0;
     clock_t timeReq = clock();
     for (int i = 1; i< size; i++){
@@ -183,7 +184,12 @@ void insertion(int *conj, int size)
     }
     timeReq = clock() - timeReq;
     printf("Progama demorou %f segundos para organizar em insertion\n",(float)timeReq/CLOCKS_PER_SEC);
-
+    /*
+    for (int i = 0; i < size; i++)
+    {
+        printf("%i\n", conj[i]);
+    }
+    */
     return;
 }
 
