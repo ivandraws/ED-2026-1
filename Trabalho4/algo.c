@@ -4,9 +4,9 @@
 #include <string.h>
 #include <time.h>
 
-void bubble(int *conj, int size);
-void selection(int *conj, int size);
-void insertion(int *conj, int size);
+float bubble(int *conj, int size);
+float selection(int *conj, int size);
+float insertion(int *conj, int size);
 
 
 
@@ -18,6 +18,7 @@ int main(int argc, char const *argv[])
     {
         printf("Usage: ./algo <numero_de_elementos> <arquivo.txt>");
         printf("Lembre-se, o máximo que o array pode chegar é 1 milhão);
+        return(-1);
     }
     */
 
@@ -26,45 +27,65 @@ int main(int argc, char const *argv[])
     int *arr = malloc(total * sizeof(int));
     if (arr == NULL)
     {
-        printf("Falha na alocação de memória\n");
+        printf("Falha na alocação de memória do array original\n");
         return 1;
     }
     int *bubArr = malloc(total * sizeof(int));
     if (bubArr == NULL)
     {
-        printf("Falha na alocação de memória\n");
+        printf("Falha na alocação de memória para bubble\n");
         free(arr);
+        // free_all(0);
         return 1;
     }
     int *insArr = malloc(total * sizeof(int));
     if (insArr == NULL)
     {
-        printf("Falha na alocaação de memória\n");
+        printf("Falha na alocaação de memória para insertion\n");
         free(arr);
         free(bubArr);
+        // free_all(1);
         return 1;
     }
     int *selecArry = malloc(total * sizeof(int));
     if(selecArry == NULL)
     {
-        printf("Falha na alocação de memória\n");
+        printf("Falha na alocação de memória para select\n");
         free(arr);
-        free(selecArry);
+        free(bubArr);
+        free(insArr);
+        // free_all(2);
         return 1;
     }
     int *mergeArry = malloc(total * sizeof(int));
     if(mergeArry == NULL)
     {
-        printf("Falha na alocação de memória\n");
+        printf("Falha na alocação de memória para merge\n");
         free(arr);
+        free(bubArr);
+        free(insArr);
+        free(selecArry);
+        // free_all(3);
+        return 1;
+    }
+    int *shellArr = malloc(total * sizeof(int));
+    if (shellArr == NULL)
+    {
+        printf("Falha na alocação de memória para shell\n");
+        free(arr);
+        free(bubArr);
+        free(insArr);
+        free(selecArry);
         free(mergeArry);
         return 1;
     }
+
 
     FILE *teste = fopen("numeros.txt", "r");
     if (teste == NULL)
     {
         printf("Nao foi possivel abrir o arquivo\n");
+        // free_all(-1);
         return 1;
     }
     
@@ -79,15 +100,29 @@ int main(int argc, char const *argv[])
     printf("Carregado com sucesso!\n");
     
     fclose(teste);
-    bubble(bubArr, total);
-    selection(selecArry, total);
-    insertion(insArr,total);
+    float timeBubble = bubble(bubArr, total);
+    float timeSelect = selection(selecArry, total);
+    float timeIns = insertion(insArr,total);
 /*   
     for (int i = 0; i < total; i++)
     {
         printf("%i\n", arr[i]);
     }
     */
+
+    FILE *results = fopen("resultados.csv", "w");
+    if (results == NULL)
+    {
+        printf("Erro em criar o relatório de tempos\n");
+    }
+    else
+    {
+        fprintf(results, "algoritmos, tempo(segundos)\n");
+        fprintf(results, "tempoBubble, %f\n", timeBubble);
+        fprintf(results, "tempoSelection, %f\n", timeSelect);
+        fprintf(results, "tempoInsertion, %f\n", timeIns);
+    }
+    fclose(results);
     free(arr);
     free(bubArr);
     free(insArr);
@@ -97,7 +132,7 @@ int main(int argc, char const *argv[])
 }
 
 
-void bubble(int *conj, int size)
+float bubble(int *conj, int size)
 {
     int tmp, changes = 10, interact = 0;
     clock_t timeRequired;
@@ -121,10 +156,10 @@ void bubble(int *conj, int size)
     } while (changes != 0);
     timeRequired = clock() - timeRequired;
     printf("Programa demorou %f segundos para organizar em bubble\n", (float)timeRequired / CLOCKS_PER_SEC);
-    return;
+    return (float)timeRequired / CLOCKS_PER_SEC;
 }
 
-void selection(int *conj, int size)
+float selection(int *conj, int size)
 {
     int interact = 0;
     clock_t timeReq;
@@ -158,10 +193,10 @@ void selection(int *conj, int size)
     */
     printf("Programa demorou %f segundos para organizar em selection\n", (float)timeReq / CLOCKS_PER_SEC);
     
-    return;
+    return (float)timeReq / CLOCKS_PER_SEC;
 }
 
-void insertion(int *conj, int size)
+float insertion(int *conj, int size)
 { 
     // FIXME - O tempo estava em 0.0000067 segundos. Fui testar e Não Está Ordenando.
     int interect = 0;
@@ -190,7 +225,7 @@ void insertion(int *conj, int size)
         printf("%i\n", conj[i]);
     }
     */
-    return;
+    return (float)timeReq / CLOCKS_PER_SEC;
 }
 
 void shell(int *conj, int size)
@@ -217,8 +252,24 @@ void quick(int *conj, int size)
     return;
 }
 
-void free_all()
+void free_all(int mode)
 {
-    // TODO
+    // Ideia de criar uma função para limpar os malloc para reduzir quantidade de código
+    switch (mode)
+    {
+    case 0:
+        break;
+    case 1:
+        break;
+
+    case 2:
+        break;
+    
+    case 3:
+        break;
+    
+    default:
+        break;
+    }
     return;
 }
