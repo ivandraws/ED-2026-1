@@ -237,6 +237,8 @@ void shell(int *conj, int size)
 void heap(int *conj, int size)
 { 
     // TODO (Héder)
+    
+
     return;
 }
 
