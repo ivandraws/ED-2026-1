@@ -25,11 +25,12 @@ class name_Vector {
         void resize(){
             string* new_vector = new string[size*2];
             string* old_data = data;
+
             for(int i = 0; i<size;i++)
                 new_vector[i] = old_data[i];
-            
-            
+
             data = new_vector;
+            delete[] old_data;
             size *= 2;
         }
         
@@ -37,6 +38,7 @@ class name_Vector {
             for (int i = 0; i<index; i++)
                 cout<<data[i]<<"\n";
         }
+
         ~name_Vector() {
             delete[] data;
         }
