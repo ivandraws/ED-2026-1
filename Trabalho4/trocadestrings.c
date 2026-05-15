@@ -33,7 +33,6 @@ void delete_string(String* str){
     free(str->data);
     str->data = NULL;
     free(str);
-    str = NULL;
 }
 
 int string_compare(String* a, String* b){
