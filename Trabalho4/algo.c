@@ -196,29 +196,20 @@ float selection(int *conj, int size)
 
 float insertion(int *conj, int size)
 { 
-    // FIXME - O tempo estava em 0.0000067 segundos. Fui testar e Não Está Ordenando.
     int interect = 0;
     clock_t timeReq = clock();
-    for (int i = 1; i< size; i++){
-        int chave = conj[i];
-        int j = 1 - 1;
+    for (int j = 1; j < size; ++j) {
+      int x = conj[j];
+      int i;
+      for (i = j-1; i >= 0 && conj[i] > x; --i) 
+         conj[i+1] = conj[i];
+      conj[i+1] = x;
+   }
 
-        while( j>= 0){
-            interect++;
-            if( conj[j] > chave){
-                conj[j + 1] = conj[j];
-                j--;
-            }
-            else{
-                break;
-            }
-        conj[j + 1] = chave;
-        }
-    }
     timeReq = clock() - timeReq;
     printf("Progama demorou %f segundos para organizar em insertion\n",(float)timeReq/CLOCKS_PER_SEC);
-    /*
-    for (int i = 0; i < size; i++)
+    
+    /*for (int i = 0; i < size; i++)
     {
         printf("%i\n", conj[i]);
     }
