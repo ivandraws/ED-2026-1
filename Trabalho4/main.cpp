@@ -4,6 +4,7 @@
 #include <string.h>
 #include <time.h>
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -54,8 +55,17 @@ int main()
 {
     name_Vector vector;
     
-    ifstream arquivo("nomes.txt");
-
+    ifstream arquivo("nomes100k.txt");
+    if(!arquivo.is_open()){
+        cout<<"Erro ao abrir arquivo\n";
+        return 1;
+    }
+    string linha;
+    while(getline(arquivo,linha)){
+        vector.add_name(linha);
+    }
+    
+    vector.show_names();
     return 0;
 }
 
