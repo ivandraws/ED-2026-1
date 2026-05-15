@@ -52,13 +52,9 @@ class name_Vector {
 
 int main()
 {
-    name_Vector v;
-    v.add_name("armando");
-    v.add_name("vinicius");
-    v.add_name("mauricio");
+    name_Vector vector;
     
-    v.show_names();
-
+    ifstream arquivo("nomes.txt");
 
     return 0;
 }
