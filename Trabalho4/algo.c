@@ -13,16 +13,14 @@ float insertion(int *conj, int size);
 int main(int argc, char const *argv[])
 {
     // TODO: Test setlocale() later
-    /*
-    if (argc != 2 && argv[1] < 1 || argv[1] > 1000001 && argv[2] == NULL)
+    setlocale(LC_ALL, "pt-BR.utf8");
+    if (argc != 2)
     {
-        printf("Usage: ./algo <numero_de_elementos> <arquivo.txt>");
-        printf("Lembre-se, o máximo que o array pode chegar é 1 milhão);
+        printf("Usage: ./algo <numero_de_elementos> <arquivo.txt>\n");
+        printf("Lembre-se, o máximo que o array pode chegar é 1 milhão");
         return(-1);
     }
-    */
 
-    setlocale(LC_ALL, "UTF-8");
     int total = 50000;
     int *arr = malloc(total * sizeof(int));
     if (arr == NULL)
