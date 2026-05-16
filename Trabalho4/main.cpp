@@ -115,7 +115,7 @@ float selection()
             int min;
             while (interact < index)
             {
-                printf("Interacao %i\n", interact);
+                //printf("Interacao %i\n", interact);
                 min = interact;
                 for (int i = interact + 1; i < size ; i++)
                 {   
