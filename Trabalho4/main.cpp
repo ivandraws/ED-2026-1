@@ -117,7 +117,7 @@ float selection()
             {
                 //printf("Interacao %i\n", interact);
                 min = interact;
-                for (int i = interact + 1; i < size ; i++)
+                for (int i = interact + 1; i < index ; i++)
                 {   
                     if (lessthan(i, min))
                     {
@@ -129,23 +129,97 @@ float selection()
                 interact++;
             }
     timeReq = clock() - timeReq;
-    /*
-    for (int i = 0; i < size; i++)
-    {
-        printf("%i\n", conj[i]);
-    }
-    */
+
     printf("Programa demorou %.3f segundos para organizar em selection\n", (float)timeReq / CLOCKS_PER_SEC);
     
     return (float)timeReq / CLOCKS_PER_SEC;
     }
 
-        
+//================ MegeSort Bottom Up do princeton =======================
+void merge(string* aux, int lo, int mid, int hi)
+{ 
     
+    for(int k=lo; k<= hi; k++){
+        aux[k] = data[k];
+    }
 
+    int i = lo, j = mid+1;
+    for(int k=lo; k<=hi; k++){
+        if      (i > mid)              data[k] = aux[j++];  
+        else if (j > hi)               data[k] = aux[i++];
+        else if (aux[j]<aux[i]) data[k] = aux[j++];
+        else                           data[k] = aux[i++];
+    }
+}
 
+void mergesort(){
+    int n = index;
+    string* aux = new string[index]; //criando cópia auxiliar
+    for(int len=1;len<n;len*=2){
+        for(int lo = 0 ; lo < n-len ; lo += len+len){
+            int mid = lo+len-1;
+            int hi = min(lo+len+len-1,n-1);
+            merge(aux,lo,mid,hi);
+        }
+    }
 
+    delete[] aux;
+}
 
+//=========Quick do Geeks for geeks usando o particionamento de lomuto ==================
+void quickSort()
+{ 
+    quick(0,index-1);
+}
+
+void quick(int low, int high){
+    if (low<high){
+        int pi = aleatoriza_pivot(low,high);
+        quick(low,pi-1);
+        quick(pi+1,high);
+    }
+}
+
+int partition(int low, int high){ //função que faz o particionamento usando o ultimo elemento como pivot
+    string pivot = data[high];
+    
+    int i = (low-1);
+
+    for(int j = low; j <= high-1; j++){
+        if(data[j] <= pivot){
+            i++;
+            exch(i,j);
+        }
+    }
+    exch(i+1,high);
+    return (i+1);
+}
+
+int aleatoriza_pivot(int low, int high){ //função que pega um elemento aleatorio do vetor e o coloca na ultima posição
+    srand(time(NULL));
+    int random = low + rand() % (high-low);
+
+    exch(random,high);
+    return partition(low,high);
+}
+//================= Insertion 
+float insertion()
+{ 
+    // FIXME - O tempo estava em 0.0000067 segundos. Fui testar e Não Está Ordenando.
+    
+    clock_t timeReq = clock();
+    for (int i = 1; i < index; i++){
+        string key = data[i];
+        int j; 
+        for(j= i-1; j >= 0 && data[j] > key ; j--)
+            data[j+1]=data[j];
+
+        data[j+1]=key;
+    }
+    timeReq = clock() - timeReq;
+    printf("Progama demorou %f segundos para organizar em insertion\n",(float)timeReq/CLOCKS_PER_SEC);
+    return (float)timeReq / CLOCKS_PER_SEC;
+}
 //==============================================================================
     private:
         bool lessthan(int i, int j)
@@ -188,147 +262,22 @@ name_Vector read_name_file(string name){
 int main(int agrc, char* const argv[])
 {
     //apenas testes, remover depois
-    name_Vector vector = read_name_file("nomes100kmin.txt");
-    name_Vector vector1 = read_name_file("nomes100kmin.txt");
+    name_Vector vector = read_name_file("nomes20k.txt");
     clock_t timeReq;
     timeReq = clock();
-    vector.heapsort();
+    vector.insertion();
     timeReq = clock() - timeReq;
     vector.show_names();
-    printf("Progama demorou %f segundos para organizar em shellsort\n",(float)timeReq/CLOCKS_PER_SEC);
-    vector1.selection();
+    printf("Progama demorou %f segundos para organizar em quicksort\n",(float)timeReq/CLOCKS_PER_SEC);
+    
     return 0;
 }
 
 
-float bubble(int *conj, int size)
-{
-    int tmp, changes = 10, interact = 0;
-    clock_t timeRequired;
-    timeRequired = clock();
-    do
-    {
-        changes = 0;
-        //printf("Interacao %i\n", interact);
-        for (int i = 0; i < size - 1; i++)
-        {
-            if (conj[i] > conj[i+1])
-            {
-                tmp = conj[i];
-                conj[i] = conj[i+1];
-                conj[i+1] = tmp;
-                changes++;
-            }
-        }
-        interact++;
-
-    } while (changes != 0);
-    timeRequired = clock() - timeRequired;
-    printf("Programa demorou %f segundos para organizar em bubble\n", (float)timeRequired / CLOCKS_PER_SEC);
-    return (float)timeRequired / CLOCKS_PER_SEC;
-}
-
-float selection(int *conj, int size)
-{
-    int interact = 0;
-    clock_t timeReq;
-    timeReq = clock();
-    int min;
-    while (interact < size)
-    {
-        //printf("Interacao %i\n", interact);
-        min = interact;
-        for (int i = interact + 1; i < size ; i++)
-        {   
-            if (conj[i] < conj[min])
-            {
-                min = i;
-            }
-        }
-        int tmp = conj[interact];
-        conj[interact] = conj[min];
-        conj[min] = tmp;
-
-        
-
-        interact++;
-    }
-    timeReq = clock() - timeReq;
-    /*
-    for (int i = 0; i < size; i++)
-    {
-        printf("%i\n", conj[i]);
-    }
-    */
-    printf("Programa demorou %f segundos para organizar em selection\n", (float)timeReq / CLOCKS_PER_SEC);
-    
-    return (float)timeReq / CLOCKS_PER_SEC;
-}
-
-float insertion(int *conj, int size)
-{ 
-    // FIXME - O tempo estava em 0.0000067 segundos. Fui testar e Não Está Ordenando.
-    int interect = 0;
-    clock_t timeReq = clock();
-    for (int i = 1; i< size; i++){
-        int chave = conj[i];
-        int j = 1 - 1;
-
-        while( j>= 0){
-            interect++;
-            if( conj[j] > chave){
-                conj[j + 1] = conj[j];
-                j--;
-            }
-            else{
-                break;
-            }
-        conj[j + 1] = chave;
-        }
-    }
-    timeReq = clock() - timeReq;
-    printf("Progama demorou %f segundos para organizar em insertion\n",(float)timeReq/CLOCKS_PER_SEC);
-    /*
-    for (int i = 0; i < size; i++)
-    {
-        printf("%i\n", conj[i]);
-    }
-    */
-    return (float)timeReq / CLOCKS_PER_SEC;
-}
 
 
 
-void merge(int *conj, int size)
-{ 
-    // TODO (Luiz)
-    return;
-}
 
-void quick(int *conj, int size)
-{ 
-    // TODO (Luiz e Ivan)
-    return;
-}
 
-void free_all(int mode)
-{
-    // Ideia de criar uma função para limpar os malloc para reduzir quantidade de código
-    switch (mode)
-    {
-    case 0:
-        break;
-    case 1:
-        break;
 
-    case 2:
-        break;
-    
-    case 3:
-        break;
-    
-    default:
-        break;
-    }
-    return;
-}
+
