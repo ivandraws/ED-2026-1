@@ -188,81 +188,79 @@ name_Vector read_name_file(string name){
 int main(int agrc, char* const argv[])
 {
     //apenas testes, remover depois
-    name_Vector vector = read_name_file("nomes100kmin.txt");
-    name_Vector vector1 = read_name_file("nomes100kmin.txt");
+    
+    if (agrc != 3)
+    {
+        cout << "Usage ./main (nomedoarquivo.txt) (algoritmo)" << endl;
+        return -1;
+    }
+    char* mode = argv[2];
+    float res[5];
+    name_Vector vector[5] = {
+        read_name_file("nomes100kmin.txt")
+    };
+    name_Vector vector5 = read_name_file("nomes100kmin.txt");
+
+    
+    int shellMode = strcmp(mode, "sh");
+    int heapMode = strcmp(mode, "he");
+    int bubbleMode = strcmp(mode, "bu");
+    int selectionMode = strcmp(mode, "se");
+    int insertionMode = strcmp(mode, "in");
+    int mergeMode = strcmp(mode, "me");
+    int quickMode = strcmp(mode, "qu");
     clock_t timeReq;
     timeReq = clock();
-    vector.heapsort();
+    if (shellMode == 0)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            timeReq = clock() - timeReq;
+            vector[i].shellsort();
+            timeReq = clock() - timeReq;
+            printf("Progama demorou %f segundos para organizar em shellsort\n",(float)timeReq/CLOCKS_PER_SEC);
+            
+        }
+    }
+    else if (heapMode == 0) 
+    {
+
+    }
+    else if (bubbleMode == 0)
+    {
+
+    }
+    else if (selectionMode == 0)
+    {
+
+    }
+    else if (insertionMode == 0)
+    {
+
+    }
+    else if (mergeMode == 0)
+    {
+
+    }
+    else if (quickMode == 0)
+    {
+
+    }
+    else
+    {
+        printf("Nenhum algoritmo similar ao do argumento de linha de comando\n");
+    }
+    timeReq = clock();
+    vector5.shellsort();
     timeReq = clock() - timeReq;
-    vector.show_names();
     printf("Progama demorou %f segundos para organizar em shellsort\n",(float)timeReq/CLOCKS_PER_SEC);
-    vector1.selection();
     return 0;
 }
 
 
-float bubble(int *conj, int size)
+void writeCSV(float tempo)
 {
-    int tmp, changes = 10, interact = 0;
-    clock_t timeRequired;
-    timeRequired = clock();
-    do
-    {
-        changes = 0;
-        //printf("Interacao %i\n", interact);
-        for (int i = 0; i < size - 1; i++)
-        {
-            if (conj[i] > conj[i+1])
-            {
-                tmp = conj[i];
-                conj[i] = conj[i+1];
-                conj[i+1] = tmp;
-                changes++;
-            }
-        }
-        interact++;
 
-    } while (changes != 0);
-    timeRequired = clock() - timeRequired;
-    printf("Programa demorou %f segundos para organizar em bubble\n", (float)timeRequired / CLOCKS_PER_SEC);
-    return (float)timeRequired / CLOCKS_PER_SEC;
-}
-
-float selection(int *conj, int size)
-{
-    int interact = 0;
-    clock_t timeReq;
-    timeReq = clock();
-    int min;
-    while (interact < size)
-    {
-        //printf("Interacao %i\n", interact);
-        min = interact;
-        for (int i = interact + 1; i < size ; i++)
-        {   
-            if (conj[i] < conj[min])
-            {
-                min = i;
-            }
-        }
-        int tmp = conj[interact];
-        conj[interact] = conj[min];
-        conj[min] = tmp;
-
-        
-
-        interact++;
-    }
-    timeReq = clock() - timeReq;
-    /*
-    for (int i = 0; i < size; i++)
-    {
-        printf("%i\n", conj[i]);
-    }
-    */
-    printf("Programa demorou %f segundos para organizar em selection\n", (float)timeReq / CLOCKS_PER_SEC);
-    
-    return (float)timeReq / CLOCKS_PER_SEC;
 }
 
 float insertion(int *conj, int size)
@@ -308,27 +306,5 @@ void merge(int *conj, int size)
 void quick(int *conj, int size)
 { 
     // TODO (Luiz e Ivan)
-    return;
-}
-
-void free_all(int mode)
-{
-    // Ideia de criar uma função para limpar os malloc para reduzir quantidade de código
-    switch (mode)
-    {
-    case 0:
-        break;
-    case 1:
-        break;
-
-    case 2:
-        break;
-    
-    case 3:
-        break;
-    
-    default:
-        break;
-    }
     return;
 }
