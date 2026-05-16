@@ -1,10 +1,24 @@
+import unicodedata
+import re
+letrasSpe = list()
+def otimizador(texto:str):
+    textoLower = texto.lower()
+    texto_tratato = unicodedata.normalize('NFKD', textoLower)
+    textoSemAcento = texto_tratato.encode('ASCII', 'ignore').decode('utf-8')
+    texto_limpo = re.sub(r'[^a-zA-Z0-9\s]', '', textoSemAcento)
+    return texto_limpo
 try:
     with open("nomes100k.txt", "r") as f:
         contend = f.read()
         lista = contend.split("\n")
         for i in range(len(lista)):
-            lista[i] = lista[i].lower()
-        print(lista[-3:-1])
+            lista[i] = otimizador(lista[i])
+            if not lista[i].isalnum():
+                for j in range(len(lista[i])):
+                    if not lista[i][j].isalnum() and lista[i][j] not in letrasSpe:
+                        letrasSpe.append(lista[i][j])
+        if len(letrasSpe) > 0:        
+            print(letrasSpe)
         
 except FileNotFoundError:
     print("Arquivo não encontrado")
