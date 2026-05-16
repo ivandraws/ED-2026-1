@@ -54,6 +54,11 @@ class name_Vector {
         }
         
        
+        bool validateOrdered(){
+            for(int i = 1; i < index; i++)
+                if(lessthan(i,i-1)) return false;
+            return true;
+        }
 
         void show_names(){
             for (int i = 0; i<index; i++)
@@ -63,7 +68,37 @@ class name_Vector {
         ~name_Vector() {
             delete[] data;
         }
+//===============Bubble Sort Geeks for geeks=================================
+        float bubbleSort() {
 
+            clock_t timeReq = clock();
+
+            int n = index;
+            bool swapped;
+
+            for (int i = 0; i < n - 1; i++) {
+
+                swapped = false;
+
+                for (int j = 0; j < n - i - 1; j++) {
+
+                    if (data[j] > data[j + 1]) {
+                        swap(data[j], data[j + 1]);
+                        swapped = true;
+                    }
+                }
+
+                if (!swapped)
+                    break;
+            }
+
+            timeReq = clock() - timeReq;
+
+            printf("Programa demorou %f segundos para organizar em bubbleSort\n",
+                (float)timeReq / CLOCKS_PER_SEC);
+
+            return (float)timeReq / CLOCKS_PER_SEC;
+        }
 //====================== Heap sort tirado do princeton. ===============================
         void heapfy(int k, int n){
             while (2*k+1 <=n){
@@ -74,152 +109,195 @@ class name_Vector {
                 k = j;
             }
         }
-        void heapsort()
-        { 
-            int size = index-1;
-
-            for(int k = (size-1)/2;k>=0; k--)
-                heapfy(k,size);
-            int k = size;
-            while(k>0){
-                exch(0,k--);
-                heapfy(0,k);
-            }
-            return;
-        }   
-//================ ShellSort do geeks for geeks ==================================================
-void shellsort()
-{ 
-    for(int gap = get_gap(index);gap>0; gap = (gap-1)/3){ //sequencia de knut
-        for(int i = gap; i<index;i++){
-            string key = data[i];
-            int j = i;
-
-            while(j>=gap && data[j-gap]>key){
-                data[j]=data[j-gap];
-                j-=gap;
-                
-            }
-            data[j]=key;
-
-        }
-    }
-    
-}
-//============== SelectionSort do IME USP=======
-float selection()
+        float heapsort()
         {
-            int interact = 0;
-            clock_t timeReq;
-            timeReq = clock();
-            int min;
-            while (interact < index)
-            {
-                printf("Interacao %i\n", interact);
-                min = interact;
-                for (int i = interact + 1; i < index ; i++)
-                {   
-                    if (lessthan(i, min))
-                    {
-                        min = i;
-                    }
-                }
-                exch(min, interact);
+            clock_t timeReq = clock();
 
-                interact++;
+            int size = index - 1;
+
+            for(int k = (size - 1) / 2; k >= 0; k--)
+                heapfy(k, size);
+
+            int k = size;
+
+            while(k > 0){
+                exch(0, k--);
+                heapfy(0, k);
             }
-    timeReq = clock() - timeReq;
 
-    printf("Programa demorou %.3f segundos para organizar em selection\n", (float)timeReq / CLOCKS_PER_SEC);
-    
-    return (float)timeReq / CLOCKS_PER_SEC;
-    }
+            timeReq = clock() - timeReq;
+
+            printf("Programa demorou %f segundos para organizar em heapsort\n",
+                (float)timeReq / CLOCKS_PER_SEC);
+
+            return (float)timeReq / CLOCKS_PER_SEC;
+        }
+//================ ShellSort do geeks for geeks ==================================================
+        float shellsort()
+        {
+            clock_t timeReq = clock();
+
+            for(int gap = get_gap(index); gap > 0; gap = (gap - 1) / 3){
+
+                for(int i = gap; i < index; i++){
+
+                    string key = data[i];
+                    int j = i;
+
+                    while(j >= gap && data[j-gap] > key){
+                        data[j] = data[j-gap];
+                        j -= gap;
+                    }
+
+                    data[j] = key;
+                }
+            }
+
+            timeReq = clock() - timeReq;
+
+            printf("Programa demorou %f segundos para organizar em shellsort\n",
+                (float)timeReq / CLOCKS_PER_SEC);
+
+            return (float)timeReq / CLOCKS_PER_SEC;
+        }
+//============== SelectionSort do IME USP=======
+        float selection()
+                {
+                    int interact = 0;
+                    clock_t timeReq;
+                    timeReq = clock();
+                    int min;
+                    while (interact < index)
+                    {
+                        printf("Interacao %i\n", interact);
+                        min = interact;
+                        for (int i = interact + 1; i < index ; i++)
+                        {   
+                            if (lessthan(i, min))
+                            {
+                                min = i;
+                            }
+                        }
+                        exch(min, interact);
+
+                        interact++;
+                    }
+            timeReq = clock() - timeReq;
+
+            printf("Programa demorou %.3f segundos para organizar em selection\n", (float)timeReq / CLOCKS_PER_SEC);
+            
+            return (float)timeReq / CLOCKS_PER_SEC;
+        }
 
 //================ MegeSort Bottom Up do princeton =======================
-void merge(string* aux, int lo, int mid, int hi)
-{ 
-    
-    for(int k=lo; k<= hi; k++){
-        aux[k] = data[k];
-    }
+        void merge(string* aux, int lo, int mid, int hi)
+            { 
+                
+                for(int k=lo; k<= hi; k++){
+                    aux[k] = data[k];
+                }
 
-    int i = lo, j = mid+1;
-    for(int k=lo; k<=hi; k++){
-        if      (i > mid)              data[k] = aux[j++];  
-        else if (j > hi)               data[k] = aux[i++];
-        else if (aux[j]<aux[i]) data[k] = aux[j++];
-        else                           data[k] = aux[i++];
-    }
-}
+                int i = lo, j = mid+1;
+                for(int k=lo; k<=hi; k++){
+                    if      (i > mid)              data[k] = aux[j++];  
+                    else if (j > hi)               data[k] = aux[i++];
+                    else if (aux[j]<aux[i]) data[k] = aux[j++];
+                    else                           data[k] = aux[i++];
+                }
+            }
 
-void mergesort(){
-    int n = index;
-    string* aux = new string[index]; //criando cópia auxiliar
-    for(int len=1;len<n;len*=2){
-        for(int lo = 0 ; lo < n-len ; lo += len+len){
-            int mid = lo+len-1;
-            int hi = min(lo+len+len-1,n-1);
-            merge(aux,lo,mid,hi);
-        }
-    }
+        float mergesort()
+            {
+                clock_t timeReq = clock();
 
-    delete[] aux;
-}
+                int n = index;
+
+                string* aux = new string[index];
+
+                for(int len = 1; len < n; len *= 2){
+
+                    for(int lo = 0; lo < n - len; lo += len + len){
+
+                        int mid = lo + len - 1;
+                        int hi = min(lo + len + len - 1, n - 1);
+
+                        merge(aux, lo, mid, hi);
+                    }
+                }
+
+                delete[] aux;
+
+                timeReq = clock() - timeReq;
+
+                printf("Programa demorou %f segundos para organizar em mergesort\n",
+                    (float)timeReq / CLOCKS_PER_SEC);
+
+                return (float)timeReq / CLOCKS_PER_SEC;
+            }
 
 //=========Quick do Geeks for geeks usando o particionamento de lomuto ==================
-void quickSort()
-{ 
-    quick(0,index-1);
-}
+        float quickSort()
+            {
+                clock_t timeReq = clock();
 
-void quick(int low, int high){
-    if (low<high){
-        int pi = aleatoriza_pivot(low,high);
-        quick(low,pi-1);
-        quick(pi+1,high);
-    }
-}
+                quick(0, index - 1);
 
-int partition(int low, int high){ //função que faz o particionamento usando o ultimo elemento como pivot
-    string pivot = data[high];
-    
-    int i = (low-1);
+                timeReq = clock() - timeReq;
 
-    for(int j = low; j <= high-1; j++){
-        if(data[j] <= pivot){
-            i++;
-            exch(i,j);
+                printf("Programa demorou %f segundos para organizar em quicksort\n",
+                    (float)timeReq / CLOCKS_PER_SEC);
+
+                return (float)timeReq / CLOCKS_PER_SEC;
+            }
+
+        void quick(int low, int high){
+            if (low<high){
+                int pi = aleatoriza_pivot(low,high);
+                quick(low,pi-1);
+                quick(pi+1,high);
+            }
         }
-    }
-    exch(i+1,high);
-    return (i+1);
-}
 
-int aleatoriza_pivot(int low, int high){ //função que pega um elemento aleatorio do vetor e o coloca na ultima posição
-    srand(time(NULL));
-    int random = low + rand() % (high-low);
+        int partition(int low, int high){ //função que faz o particionamento usando o ultimo elemento como pivot
+            string pivot = data[high];
+            
+            int i = (low-1);
 
-    exch(random,high);
-    return partition(low,high);
-}
-//================= Insertion 
-float insertion()
-{ 
-    // FIXME - O tempo estava em 0.0000067 segundos. Fui testar e Não Está Ordenando.
-    
-    clock_t timeReq = clock();
-    for (int i = 1; i < index; i++){
-        string key = data[i];
-        int j; 
-        for(j= i-1; j >= 0 && data[j] > key ; j--)
-            data[j+1]=data[j];
+            for(int j = low; j <= high-1; j++){
+                if(data[j] <= pivot){
+                    i++;
+                    exch(i,j);
+                }
+            }
+            exch(i+1,high);
+            return (i+1);
+        }
 
-        data[j+1]=key;
-    }
-    timeReq = clock() - timeReq;
-    printf("Progama demorou %f segundos para organizar em insertion\n",(float)timeReq/CLOCKS_PER_SEC);
-    return (float)timeReq / CLOCKS_PER_SEC;
-}
+        int aleatoriza_pivot(int low, int high){ //função que pega um elemento aleatorio do vetor e o coloca na ultima posição
+            srand(time(NULL));
+            int random = low + rand() % (high-low);
+
+            exch(random,high);
+            return partition(low,high);
+        }
+//================= Insertion do IME USP =================
+        float insertion()
+        { 
+            // FIXME - O tempo estava em 0.0000067 segundos. Fui testar e Não Está Ordenando.
+            
+            clock_t timeReq = clock();
+            for (int i = 1; i < index; i++){
+                string key = data[i];
+                int j; 
+                for(j= i-1; j >= 0 && data[j] > key ; j--)
+                    data[j+1]=data[j];
+
+                data[j+1]=key;
+            }
+            timeReq = clock() - timeReq;
+            printf("Progama demorou %f segundos para organizar em insertion\n",(float)timeReq/CLOCKS_PER_SEC);
+            return (float)timeReq / CLOCKS_PER_SEC;
+        }
 //==============================================================================
     private:
         bool lessthan(int i, int j)
@@ -265,10 +343,10 @@ int main(int agrc, char* const argv[])
     name_Vector vector = read_name_file("nomes20k.txt");
     clock_t timeReq;
     timeReq = clock();
-    vector.insertion();
+    vector.bubbleSort();
     timeReq = clock() - timeReq;
-    vector.show_names();
-    printf("Progama demorou %f segundos para organizar em quicksort\n",(float)timeReq/CLOCKS_PER_SEC);
+    vector.validateOrdered() ? printf("Está Ordenado\n") : printf("Não está ordenado\n");
+    printf("Progama demorou %f segundos para organizar em bubblesort\n",(float)timeReq/CLOCKS_PER_SEC);
     
     return 0;
 }
