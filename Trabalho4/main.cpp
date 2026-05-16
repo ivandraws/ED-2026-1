@@ -115,7 +115,7 @@ void selection()
             {
                 //printf("Interacao %i\n", interact);
                 min = interact;
-                for (int i = interact + 1; i < size ; i++)
+                for (int i = interact + 1; i < index ; i++)
                 {   
                     if (lessthan(i, min))
                     {
@@ -126,20 +126,98 @@ void selection()
 
                 interact++;
             }
-    /*
-    for (int i = 0; i < size; i++)
-    {
-        printf("%i\n", conj[i]);
-    }
-    */
-    }
+    timeReq = clock() - timeReq;
 
-        
+    printf("Programa demorou %.3f segundos para organizar em selection\n", (float)timeReq / CLOCKS_PER_SEC);
     
+    return (float)timeReq / CLOCKS_PER_SEC;
+    }
 
+//================ MegeSort Bottom Up do princeton =======================
+void merge(string* aux, int lo, int mid, int hi)
+{ 
+    
+    for(int k=lo; k<= hi; k++){
+        aux[k] = data[k];
+    }
 
+    int i = lo, j = mid+1;
+    for(int k=lo; k<=hi; k++){
+        if      (i > mid)              data[k] = aux[j++];  
+        else if (j > hi)               data[k] = aux[i++];
+        else if (aux[j]<aux[i]) data[k] = aux[j++];
+        else                           data[k] = aux[i++];
+    }
+}
 
+void mergesort(){
+    int n = index;
+    string* aux = new string[index]; //criando cópia auxiliar
+    for(int len=1;len<n;len*=2){
+        for(int lo = 0 ; lo < n-len ; lo += len+len){
+            int mid = lo+len-1;
+            int hi = min(lo+len+len-1,n-1);
+            merge(aux,lo,mid,hi);
+        }
+    }
 
+    delete[] aux;
+}
+
+//=========Quick do Geeks for geeks usando o particionamento de lomuto ==================
+void quickSort()
+{ 
+    quick(0,index-1);
+}
+
+void quick(int low, int high){
+    if (low<high){
+        int pi = aleatoriza_pivot(low,high);
+        quick(low,pi-1);
+        quick(pi+1,high);
+    }
+}
+
+int partition(int low, int high){ //função que faz o particionamento usando o ultimo elemento como pivot
+    string pivot = data[high];
+    
+    int i = (low-1);
+
+    for(int j = low; j <= high-1; j++){
+        if(data[j] <= pivot){
+            i++;
+            exch(i,j);
+        }
+    }
+    exch(i+1,high);
+    return (i+1);
+}
+
+int aleatoriza_pivot(int low, int high){ //função que pega um elemento aleatorio do vetor e o coloca na ultima posição
+    srand(time(NULL));
+    int random = low + rand() % (high-low);
+
+    exch(random,high);
+    return partition(low,high);
+}
+//================= Insertion 
+float insertion()
+{ 
+    // FIXME - O tempo estava em 0.0000067 segundos. Fui testar e Não Está Ordenando.
+    
+    clock_t timeReq = clock();
+    for (int i = 1; i < index; i++){
+        string key = data[i];
+        int j; 
+        for(j= i-1; j >= 0 && data[j] > key ; j--)
+            data[j+1]=data[j];
+
+        data[j+1]=key;
+    }
+    timeReq = clock() - timeReq;
+    printf("Progama demorou %f segundos para organizar em insertion\n",(float)timeReq/CLOCKS_PER_SEC);
+    return (float)timeReq / CLOCKS_PER_SEC;
+}
 //==============================================================================
     private:
         bool lessthan(int i, int j)
