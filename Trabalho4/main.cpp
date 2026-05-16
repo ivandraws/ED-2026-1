@@ -161,13 +161,17 @@ class name_Vector {
             return (float)timeReq / CLOCKS_PER_SEC;
         }
 //============== SelectionSort do IME USP=======
-        float selection()
-                {
-                    int interact = 0;
-                    clock_t timeReq;
-                    timeReq = clock();
-                    int min;
-                    while (interact < index)
+void selection()
+        {
+            int interact = 0;
+            int min;
+            while (interact < index)
+            {
+                //printf("Interacao %i\n", interact);
+                min = interact;
+                for (int i = interact + 1; i < index ; i++)
+                {   
+                    if (lessthan(i, min))
                     {
                         printf("Interacao %i\n", interact);
                         min = interact;
@@ -337,25 +341,210 @@ name_Vector read_name_file(string name){
     return vector;
 }
 
+void writeCSV(float tempos[], int mode);
+
 int main(int agrc, char* const argv[])
 {
     //apenas testes, remover depois
-    name_Vector vector = read_name_file("nomes20k.txt");
+    
+    if (agrc != 3)
+    {
+        cout << "Usage ./main (nomedoarquivo.txt) (algoritmo)" << endl;
+        return -1;
+    }
+    char* mode = argv[2];
+    float res[5];
+    name_Vector vector[5] = {
+        read_name_file("nomes100kmin.txt")
+    };
+    name_Vector vector5 = read_name_file("nomes100kmin.txt");
+
+    
+    int shellMode = strcmp(mode, "sh"); // 0
+    int heapMode = strcmp(mode, "he"); // 1
+    int bubbleMode = strcmp(mode, "bu"); // 2
+    int selectionMode = strcmp(mode, "se"); // 3
+    int insertionMode = strcmp(mode, "in"); // 4
+    int mergeMode = strcmp(mode, "me"); // 5
+    int quickMode = strcmp(mode, "qu"); // 6
+    int resPrint;
     clock_t timeReq;
     timeReq = clock();
-    vector.bubbleSort();
-    timeReq = clock() - timeReq;
-    vector.validateOrdered() ? printf("Está Ordenado\n") : printf("Não está ordenado\n");
-    printf("Progama demorou %f segundos para organizar em bubblesort\n",(float)timeReq/CLOCKS_PER_SEC);
+    if (shellMode == 0)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            timeReq = clock() - timeReq;
+            vector[i].shellsort();
+            timeReq = clock() - timeReq;
+            float tempo = (float)timeReq/CLOCKS_PER_SEC;
+            printf("Progama demorou %f segundos para organizar em shellsort\n",tempo);
+            res[i] = tempo;
+        }
+        resPrint = 0;
+    }
+    else if (heapMode == 0) 
+    {
+        resPrint = 1;
+    }
+    else if (bubbleMode == 0)
+    {
+        resPrint = 2;
+    }
+    else if (selectionMode == 0)
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            timeReq = clock() - timeReq;
+            vector[i].selection();
+            timeReq = clock() - timeReq;
+            float tempo = (float)timeReq/CLOCKS_PER_SEC;
+            printf("Progama demorou %f segundos para organizar em selection sort\n",tempo);
+            res[i] = tempo;
+        }
+        resPrint = 3;
+    }
+    else if (insertionMode == 0)
+    {
+        resPrint = 4;
+    }
+    else if (mergeMode == 0)
+    {
+        resPrint = 5;
+    }
+    else if (quickMode == 0)
+    {
+        resPrint = 6;
+    }
+    else
+    {
+        printf("Nenhum algoritmo similar ao do argumento de linha de comando\n");
+    }
     
+    writeCSV(res, resPrint);
     return 0;
 }
 
 
+void writeCSV(float tempos[], int mode)
+{
+    
+    if (mode == 0){
+        ofstream res("resShell.txt");
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
+        res.close();
+        return;
+    }
+    else if (mode == 1){
+        ofstream res("resHeap.txt");
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
 
-
-
-
-
-
-
+        res.close();
+        return;
+    }
+    else if (mode == 2){
+        ofstream res("resBubble.txt");
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
+        res.close();
+        return;
+    }
+    else if (mode == 3){
+        ofstream res("resSelect.txt");
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+         {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
+        res.close();
+        return;
+    }
+    else if(mode == 4){
+        ofstream res("resInsert.txt"); 
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
+        res.close();
+        return;
+    }
+    else if (mode == 5){
+        ofstream res("resMerge.txt");
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
+        res.close();
+        return;
+    }
+    else if (mode == 6){
+        ofstream res("resQuick.txt");
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
+        res.close();
+        return;
+    }
+    else{
+        printf("Não foi possível realizar a operação (numero de algoritmo inválido. Vide comentários)");
+        return;
+    }
+    
+}

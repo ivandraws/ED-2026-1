@@ -1,12 +1,17 @@
 import unicodedata
 import re
+
 letrasSpe = list()
+
 def otimizador(texto:str):
+    texto = texto.strip()
+    texto = texto.replace(' ', '')
     textoLower = texto.lower()
     texto_tratato = unicodedata.normalize('NFKD', textoLower)
     textoSemAcento = texto_tratato.encode('ASCII', 'ignore').decode('utf-8')
     texto_limpo = re.sub(r'[^a-zA-Z0-9\s]', '', textoSemAcento)
     return texto_limpo
+
 try:
     with open("nomes100k.txt", "r") as f:
         contend = f.read()
@@ -26,6 +31,9 @@ except FileNotFoundError:
 try:
     with open("nomes100kmin.txt", "w") as f:
         for i in range(len(lista)):
-            f.write((lista[i] + "\n"))
+            if i == len(lista) - 1:
+                f.write(lista[i])
+            else:
+                f.write((lista[i] + "\n"))
 except Exception as e:
     print(f"Erro inesperado: {e}")
