@@ -107,11 +107,9 @@ void shellsort()
     
 }
 //============== SelectionSort do IME USP=======
-float selection()
+void selection()
         {
             int interact = 0;
-            clock_t timeReq;
-            timeReq = clock();
             int min;
             while (interact < index)
             {
@@ -128,16 +126,12 @@ float selection()
 
                 interact++;
             }
-    timeReq = clock() - timeReq;
     /*
     for (int i = 0; i < size; i++)
     {
         printf("%i\n", conj[i]);
     }
     */
-    printf("Programa demorou %.3f segundos para organizar em selection\n", (float)timeReq / CLOCKS_PER_SEC);
-    
-    return (float)timeReq / CLOCKS_PER_SEC;
     }
 
         
@@ -185,6 +179,8 @@ name_Vector read_name_file(string name){
     return vector;
 }
 
+void writeCSV(float tempos[], int mode);
+
 int main(int agrc, char* const argv[])
 {
     //apenas testes, remover depois
@@ -202,13 +198,14 @@ int main(int agrc, char* const argv[])
     name_Vector vector5 = read_name_file("nomes100kmin.txt");
 
     
-    int shellMode = strcmp(mode, "sh");
-    int heapMode = strcmp(mode, "he");
-    int bubbleMode = strcmp(mode, "bu");
-    int selectionMode = strcmp(mode, "se");
-    int insertionMode = strcmp(mode, "in");
-    int mergeMode = strcmp(mode, "me");
-    int quickMode = strcmp(mode, "qu");
+    int shellMode = strcmp(mode, "sh"); // 0
+    int heapMode = strcmp(mode, "he"); // 1
+    int bubbleMode = strcmp(mode, "bu"); // 2
+    int selectionMode = strcmp(mode, "se"); // 3
+    int insertionMode = strcmp(mode, "in"); // 4
+    int mergeMode = strcmp(mode, "me"); // 5
+    int quickMode = strcmp(mode, "qu"); // 6
+    int resPrint;
     clock_t timeReq;
     timeReq = clock();
     if (shellMode == 0)
@@ -218,49 +215,176 @@ int main(int agrc, char* const argv[])
             timeReq = clock() - timeReq;
             vector[i].shellsort();
             timeReq = clock() - timeReq;
-            printf("Progama demorou %f segundos para organizar em shellsort\n",(float)timeReq/CLOCKS_PER_SEC);
-            
+            float tempo = (float)timeReq/CLOCKS_PER_SEC;
+            printf("Progama demorou %f segundos para organizar em shellsort\n",tempo);
+            res[i] = tempo;
         }
+        resPrint = 0;
     }
     else if (heapMode == 0) 
     {
-
+        resPrint = 1;
     }
     else if (bubbleMode == 0)
     {
-
+        resPrint = 2;
     }
     else if (selectionMode == 0)
     {
-
+        for (int i = 0; i < 5; i++)
+        {
+            timeReq = clock() - timeReq;
+            vector[i].selection();
+            timeReq = clock() - timeReq;
+            float tempo = (float)timeReq/CLOCKS_PER_SEC;
+            printf("Progama demorou %f segundos para organizar em selection sort\n",tempo);
+            res[i] = tempo;
+        }
+        resPrint = 3;
     }
     else if (insertionMode == 0)
     {
-
+        resPrint = 4;
     }
     else if (mergeMode == 0)
     {
-
+        resPrint = 5;
     }
     else if (quickMode == 0)
     {
-
+        resPrint = 6;
     }
     else
     {
         printf("Nenhum algoritmo similar ao do argumento de linha de comando\n");
     }
-    timeReq = clock();
-    vector5.shellsort();
-    timeReq = clock() - timeReq;
-    printf("Progama demorou %f segundos para organizar em shellsort\n",(float)timeReq/CLOCKS_PER_SEC);
+    
+    writeCSV(res, resPrint);
     return 0;
 }
 
 
-void writeCSV(float tempo)
+void writeCSV(float tempos[], int mode)
 {
+    
+    if (mode == 0){
+        ofstream res("resShell.txt");
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
+        res.close();
+        return;
+    }
+    else if (mode == 1){
+        ofstream res("resHeap.txt");
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
 
+        res.close();
+        return;
+    }
+    else if (mode == 2){
+        ofstream res("resBubble.txt");
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
+        res.close();
+        return;
+    }
+    else if (mode == 3){
+        ofstream res("resSelect.txt");
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+         {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
+        res.close();
+        return;
+    }
+    else if(mode == 4){
+        ofstream res("resInsert.txt"); 
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
+        res.close();
+        return;
+    }
+    else if (mode == 5){
+        ofstream res("resMerge.txt");
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
+        res.close();
+        return;
+    }
+    else if (mode == 6){
+        ofstream res("resQuick.txt");
+        if (!res.is_open())
+        {
+            return;
+        }
+        else
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                res << tempos[i] << endl;
+            }
+        }
+        res.close();
+        return;
+    }
+    else{
+        printf("Não foi possível realizar a operação (numero de algoritmo inválido. Vide comentários)");
+        return;
+    }
+    
 }
 
 float insertion(int *conj, int size)
@@ -272,7 +396,7 @@ float insertion(int *conj, int size)
         int chave = conj[i];
         int j = 1 - 1;
 
-        while( j>= 0){
+        while(j>= 0){
             interect++;
             if( conj[j] > chave){
                 conj[j + 1] = conj[j];
