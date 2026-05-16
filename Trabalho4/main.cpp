@@ -106,6 +106,44 @@ void shellsort()
     }
     
 }
+//============== SelectionSort do IME USP=======
+float selection()
+        {
+            int interact = 0;
+            clock_t timeReq;
+            timeReq = clock();
+            int min;
+            while (interact < index)
+            {
+                printf("Interacao %i\n", interact);
+                min = interact;
+                for (int i = interact + 1; i < size ; i++)
+                {   
+                    if (lessthan(i, min))
+                    {
+                        min = i;
+                    }
+                }
+                exch(min, interact);
+
+                interact++;
+            }
+    timeReq = clock() - timeReq;
+    /*
+    for (int i = 0; i < size; i++)
+    {
+        printf("%i\n", conj[i]);
+    }
+    */
+    printf("Programa demorou %.3f segundos para organizar em selection\n", (float)timeReq / CLOCKS_PER_SEC);
+    
+    return (float)timeReq / CLOCKS_PER_SEC;
+    }
+
+        
+    
+
+
 
 
 //==============================================================================
@@ -147,16 +185,18 @@ name_Vector read_name_file(string name){
     return vector;
 }
 
-int main()
+int main(int agrc, char* const argv[])
 {
     //apenas testes, remover depois
-    name_Vector vector = read_name_file("nomes100k.txt");
+    name_Vector vector = read_name_file("nomes100kmin.txt");
+    name_Vector vector1 = read_name_file("nomes100kmin.txt");
     clock_t timeReq;
     timeReq = clock();
     vector.heapsort();
     timeReq = clock() - timeReq;
     vector.show_names();
     printf("Progama demorou %f segundos para organizar em shellsort\n",(float)timeReq/CLOCKS_PER_SEC);
+    vector1.selection();
     return 0;
 }
 
