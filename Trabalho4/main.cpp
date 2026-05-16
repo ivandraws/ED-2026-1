@@ -10,10 +10,28 @@ using namespace std;
 
 class name_Vector {
     public:
-        int size = 100000;
-        int index = 0;
-        string* data = new string[size];
+        int size;
+        int index;
+        string* data;
 
+        name_Vector(int n=100000){
+            size = n;
+            index = 0;
+            data = new string[size];
+        }
+
+        name_Vector(const name_Vector& other) {
+
+            size = other.size;
+            index = other.index;
+
+            data = new string[size];
+
+            for(int i = 0; i < index; i++) {
+                data[i] = other.data[i];
+            }
+        }
+        
         void add_name(string nome){
             if(index == size)
                 resize();
@@ -27,7 +45,7 @@ class name_Vector {
             string* new_vector = new string[size*2];
             string* old_data = data;
 
-            for(int i = 0; i<size;i++)
+            for(int i = 0; i<index;i++)
                 new_vector[i] = old_data[i];
 
             data = new_vector;
@@ -35,6 +53,8 @@ class name_Vector {
             size *= 2;
         }
         
+       
+
         void show_names(){
             for (int i = 0; i<index; i++)
                 cout<<data[i]<<"\n";
@@ -44,28 +64,99 @@ class name_Vector {
             delete[] data;
         }
 
-        
+//====================== Heap sort tirado do princeton. ===============================
+        void heapfy(int k, int n){
+            while (2*k+1 <=n){
+                int j = 2*k+1;
+                if (j<n && lessthan(j, j+1)) j++;
+                if(!lessthan(k,j))break;
+                exch(k,j);
+                k = j;
+            }
+        }
+        void heapsort()
+        { 
+            int size = index-1;
+
+            for(int k = (size-1)/2;k>=0; k--)
+                heapfy(k,size);
+            int k = size;
+            while(k>0){
+                exch(0,k--);
+                heapfy(0,k);
+            }
+            return;
+        }   
+//================ ShellSort do geeks for geeks ==================================================
+void shellsort()
+{ 
+    for(int gap = get_gap(index);gap>0; gap = (gap-1)/3){ //sequencia de knut
+        for(int i = gap; i<index;i++){
+            string key = data[i];
+            int j = i;
+
+            while(j>=gap && data[j-gap]>key){
+                data[j]=data[j-gap];
+                j-=gap;
+                
+            }
+            data[j]=key;
+
+        }
+    }
     
+}
+
+
+//==============================================================================
+    private:
+        bool lessthan(int i, int j)
+        {
+            return data[i]<data[j] ? true : false;
+        }
+
+        void exch(int i, int j)
+        {
+            string aux = data[i];
+            data[i] = data[j];
+            data[j] = aux;
+        }
+        
+        int get_gap(int n){
+            int h = 1;
+            while(h<n/3){
+                h = 3*h+1;
+            }
+            return h;
+        }
 };
 
 
-
-
-int main()
-{
+name_Vector read_name_file(string name){
     name_Vector vector;
     
-    ifstream arquivo("nomes100k.txt");
+    ifstream arquivo(name);
     if(!arquivo.is_open()){
-        cout<<"Erro ao abrir arquivo\n";
-        return 1;
+        throw runtime_error("Erro ao abrir arquivo\n");
     }
     string linha;
     while(getline(arquivo,linha)){
         vector.add_name(linha);
     }
-    
+
+    return vector;
+}
+
+int main()
+{
+    //apenas testes, remover depois
+    name_Vector vector = read_name_file("nomes100k.txt");
+    clock_t timeReq;
+    timeReq = clock();
+    vector.heapsort();
+    timeReq = clock() - timeReq;
     vector.show_names();
+    printf("Progama demorou %f segundos para organizar em shellsort\n",(float)timeReq/CLOCKS_PER_SEC);
     return 0;
 }
 
@@ -166,19 +257,7 @@ float insertion(int *conj, int size)
     return (float)timeReq / CLOCKS_PER_SEC;
 }
 
-void shell(int *conj, int size)
-{ 
-    // TODO (Héder)
-    return;
-}
 
-void heap(int *conj, int size)
-{ 
-    // TODO (Héder)
-
-
-    return;
-}
 
 void merge(int *conj, int size)
 { 
