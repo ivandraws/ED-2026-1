@@ -19,7 +19,7 @@ arquivos = [
     "nomes100k.txt",
     "nomes250k.txt",
     "nomes500k.txt",
-    "nomes1mk.txt"
+    "nomes1m.txt"
 ]
 
 

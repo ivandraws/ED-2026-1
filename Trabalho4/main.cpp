@@ -358,58 +358,58 @@ int main(int agrc, char* const argv[])
     int resPrint = -1;
 
     if(strcmp(mode, "sh") == 0){
-        name_Vector vector = original_vector;
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 5; i++){
+            name_Vector vector = original_vector;
             results[i] = vector.shellsort();
-
+        }
         resPrint = 0;
     }
 
     else if(strcmp(mode, "he") == 0){
-        name_Vector vector = original_vector;
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 5; i++){
+            name_Vector vector = original_vector;
             results[i] = vector.heapsort();
-
+        }
         resPrint = 1;
     }
 
     else if(strcmp(mode, "bu") == 0){
-        name_Vector vector = original_vector;
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 5; i++){
+            name_Vector vector = original_vector;
             results[i] = vector.bubbleSort();
-
+        }
         resPrint = 2;
     }
 
     else if(strcmp(mode, "se") == 0){
-        name_Vector vector = original_vector;
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 5; i++){
+            name_Vector vector = original_vector;
             results[i] = vector.selection();
-
+        }
         resPrint = 3;
     }
 
     else if(strcmp(mode, "in") == 0){
-        name_Vector vector = original_vector;
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 5; i++){
+            name_Vector vector = original_vector;
             results[i] = vector.insertion();
-
+        }
         resPrint = 4;
     }
 
     else if(strcmp(mode, "me") == 0){
-        name_Vector vector = original_vector;
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 5; i++){
+            name_Vector vector = original_vector;
             results[i] = vector.mergesort();
-
+        }
         resPrint = 5;
     }
 
     else if(strcmp(mode, "qu") == 0){
-        name_Vector vector = original_vector;
-        for(int i = 0; i < 5; i++)
+        for(int i = 0; i < 5; i++){
+            name_Vector vector = original_vector;
             results[i] = vector.quickSort();
-
+        }
         resPrint = 6;
     }
 
@@ -434,7 +434,7 @@ void writeCSV(float tempos[], int mode)
         case 2:
             filename="resBubble.txt"; break;
         case 3:
-            filename="resSelectiontxt"; break;
+            filename="resSelection.txt"; break;
         case 4:
             filename="resInsertion.txt"; break;
         case 5:

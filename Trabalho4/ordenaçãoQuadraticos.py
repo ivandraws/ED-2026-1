@@ -14,8 +14,8 @@ algoritmos = {
 arquivos = [
     "nomes100k.txt",
     "nomes250k.txt",
-    "nomes500k.txt",
-    "nomes1mk.txt"
+    "nomes500.txt",
+    "nomes1m.txt"
 ]
 
 
@@ -73,8 +73,8 @@ def executa_algoritmo(arquivo, codigo_algoritmo):
 
     nome_saida = {
         "bu": "resBubble.txt",
-        "se": "resSelect.txt",
-        "in": "resInsert.txt"
+        "se": "resSelection.txt",
+        "in": "resInsertion.txt"
     }
 
     arquivo_saida = nome_saida[codigo_algoritmo]
