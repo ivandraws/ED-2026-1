@@ -67,7 +67,7 @@ def menu():
             if os.path.exists(ARQUIVO_FINAL):
                 subprocess.run(["python3", "graficos.py"])
             else:
-                print(f"Arquivo {ARQUIVO_FINAL} nao encontrado. Rode a opcao 3 primeiro.")
+                print(f"Arquivo {ARQUIVO_FINAL} nao encontrado.")
 
         elif opcao == "0":
             break
